@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/fpl-chain-tracker/gw.schema.json",
+  "title": "gw-NN.json — 单轮详情（design.md §8.3）",
+  "type": "object",
+  "required": ["season", "gw", "status", "summary", "lineup", "transfers", "chips"],
+  "properties": {
+    "season": { "type": "string" },
+    "gw": { "type": "integer", "minimum": 1, "maximum": 38 },
+    "status": { "enum": ["upcoming", "live", "finished", "sealed"] },
+    "summary": { "$ref": "#/definitions/gwSummary" },
+    "lineup": { "type": ["object", "null"], "$ref": "#/definitions/lineup" },
+    "transfers": {
+      "type": ["array", "null"],
+      "items": {
+        "type": "object",
+        "required": ["element_in", "element_in_name", "element_out", "element_out_name", "cost", "gw", "time_utc"],
+        "properties": {
+          "element_in": { "type": "integer" },
+          "element_in_name": { "type": "string" },
+          "element_out": { "type": "integer" },
+          "element_out_name": { "type": "string" },
+          "cost": { "type": "number" },
+          "gw": { "type": "integer" },
+          "time_utc": { "type": "string" }
+        }
+      }
+    },
+    "chips": {
+      "type": ["array", "null"],
+      "items": { "enum": ["wildcard", "free_hit", "bench_boost", "triple_captain"] }
+    }
+  },
+  "definitions": {
+    "gwSummary": {
+      "type": "object",
+      "required": ["gw", "status", "manager", "manager_avatar", "score", "total_points", "overall_rank", "gw_rank", "chips", "transfers_count", "transfers_cost", "has_detail"],
+      "properties": {
+        "gw": { "type": "integer" },
+        "status": { "enum": ["upcoming", "live", "finished", "sealed"] },
+        "manager": { "type": ["string", "null"] },
+        "manager_avatar": { "type": ["string", "null"] },
+        "score": { "type": ["integer", "null"] },
+        "total_points": { "type": ["integer", "null"] },
+        "overall_rank": { "type": ["integer", "null"] },
+        "gw_rank": { "type": ["integer", "null"] },
+        "chips": { "type": ["array", "null"] },
+        "transfers_count": { "type": "integer" },
+        "transfers_cost": { "type": "number" },
+        "has_detail": { "type": "boolean" }
+      }
+    },
+    "lineup": {
+      "type": "object",
+      "required": ["starters", "subs"],
+      "properties": {
+        "starters": { "type": "array", "minItems": 11, "maxItems": 11, "items": { "$ref": "#/definitions/playerEntry" } },
+        "subs": { "type": "array", "minItems": 4, "maxItems": 4, "items": { "$ref": "#/definitions/playerEntry" } }
+      }
+    },
+    "playerEntry": {
+      "type": "object",
+      "required": ["element", "name", "team", "position_type", "is_captain", "is_vice_captain", "multiplier", "is_substitute"],
+      "properties": {
+        "element": { "type": "integer" },
+        "name": { "type": "string" },
+        "team": { "type": "string" },
+        "position_type": { "enum": ["GKP", "DEF", "MID", "FWD"] },
+        "is_captain": { "type": "boolean" },
+        "is_vice_captain": { "type": "boolean" },
+        "multiplier": { "type": "integer" },
+        "is_substitute": { "type": "boolean" }
+      }
+    }
+  }
+}

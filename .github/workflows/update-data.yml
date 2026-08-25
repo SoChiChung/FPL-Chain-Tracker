@@ -1,0 +1,50 @@
+# FPL Chain Tracker 定时数据采集。design.md §13。
+name: Update FPL data
+
+on:
+  schedule:
+    # 每 30 分钟一次（UTC）。注意 FPL API 对高频轮询可能限流（429），
+    # crawler 已按 Retry-After 处理；若被限流可降低此频率
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ["crawler/**", "config.json", ".github/workflows/update-data.yml"]
+
+concurrency:
+  group: fpl-data-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run crawler
+        run: python crawler/run.py --config config.json
+
+      - name: Commit and push data changes
+        run: |
+          git config user.name "FPLChainTracker Bot"
+          git config user.email "fpl-chain-tracker[bot]@users.noreply.github.com"
+          # 仅内容文件（summary/stats/gw-*）变化才提交；meta.json 每次都会刷新时间戳，不算内容变化
+          # data/ 在 .gitignore 中，必须用 -f 强制加入；排除 .tmp 临时目录
+          if git diff --quiet -- data/ ':(exclude)data/meta.json'; then
+            echo "No content changes; skip commit"
+          else
+            git add -f data/ ':(exclude)data/.tmp'
+            git commit -m "chore(data): update FPL chain tracker data [skip ci]"
+            git push || {
+              echo "Push failed, retrying after rebase"
+              git pull --rebase
+              git push
+            }
+          fi

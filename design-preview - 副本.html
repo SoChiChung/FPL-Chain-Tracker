@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FPL 接龙赛追踪 — UI 原型</title>
+<link rel="stylesheet" href="assets/css/style.css">
+<style>
+  /* 原型专用：顶部标识条（仅用于原型页，正式页没有） */
+  .preview-banner {
+    background: #7048e8;
+    color: #fff;
+    text-align: center;
+    font-size: 12px;
+    padding: 6px;
+    letter-spacing: 1px;
+  }
+</style>
+</head>
+<body>
+
+<div class="preview-banner">UI 设计原型 · 数据为 Mock（未接入真实 JSON）</div>
+
+<header class="site-header">
+  <h1 class="site-title">接龙赛</h1>
+</header>
+
+<nav class="tabs" role="tablist">
+  <button class="tab-btn active" data-tab="relay" role="tab">接龙赛</button>
+  <button class="tab-btn" data-tab="leaderboard" role="tab">玩家积分榜</button>
+</nav>
+
+<main class="container">
+  <section id="tab-relay" class="tab-panel active">
+    <div id="account-card" class="account-card"></div>
+    <h2 class="section-title">Gameweek 时间线</h2>
+    <div id="gw-timeline" class="gw-timeline"></div>
+  </section>
+  <section id="tab-leaderboard" class="tab-panel">
+    <div id="leaderboard" class="leaderboard"></div>
+  </section>
+</main>
+
+<footer class="site-footer">UI 原型 · 视觉优化时可直接替换 assets/css/style.css</footer>
+
+<script>
+'use strict';
+
+/* ================= Mock 数据（模拟 data/*.json 结构） ================= */
+const MOCK_AVATAR_COLORS = ['#3b5bdb', '#12b886', '#f59f00', '#e8590c', '#7048e8',
+  '#0ca678', '#d6336c', '#1098ad', '#5c940d'];
+
+function mockAvatar(name, i) {
+  const color = MOCK_AVATAR_COLORS[i % MOCK_AVATAR_COLORS.length];
+  const ch = name.charAt(0);
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='96' height='96'>` +
+    `<circle cx='48' cy='48' r='48' fill='${color}'/>` +
+    `<text x='48' y='64' font-size='44' fill='#fff' text-anchor='middle' font-family='sans-serif'>${ch}</text></svg>`;
+  return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+}
+
+const MANAGERS = [
+  { name: 'Fran',      start_gw: 3,  end_gw: 6,  avatar: mockAvatar('Fran', 0) },
+  { name: 'remember',  start_gw: 7,  end_gw: 10, avatar: mockAvatar('remember', 1) },
+  { name: '欧巡',       start_gw: 11, end_gw: 14, avatar: mockAvatar('欧巡', 2) },
+  { name: '中国合伙人', start_gw: 15, end_gw: 18, avatar: mockAvatar('中国合伙人', 3) },
+];
+
+function managerOf(gw) {
+  return MANAGERS.find(m => m.start_gw <= gw && gw <= m.end_gw) || null;
+}
+
+const GW_LIST = [
+  { gw: 1, status: 'sealed', score: 58,  total_points: 58,  overall_rank: 2201654, gw_rank: 2201657, chips: [], transfers_count: 0, transfers_cost: 0 },
+  { gw: 2, status: 'sealed', score: 47,  total_points: 105, overall_rank: 2011832, gw_rank: 110245, chips: [], transfers_count: 2, transfers_cost: -4 },
+  { gw: 3, status: 'sealed', score: 92,  total_points: 254, overall_rank: 15342,   gw_rank: 882,    chips: ['wildcard'], transfers_count: 2, transfers_cost: -4 },
+  { gw: 4, status: 'live',   score: 41,  total_points: 410, overall_rank: 12001,   gw_rank: 88331,  chips: [], transfers_count: 1, transfers_cost: 0 },
+  { gw: 5, status: 'upcoming', score: null, total_points: null, overall_rank: null, gw_rank: null, chips: null, transfers_count: 0, transfers_cost: 0 },
+];
+
+const GW3_DETAIL = {
+  lineup: {
+    starters: [
+      { name: 'Donnarumma', team: 'MCI', position_type: 'GKP', is_captain: false, is_vice_captain: false },
+      { name: 'Gabriel',    team: 'ARS', position_type: 'DEF', is_captain: true,  is_vice_captain: false },
+      { name: 'Gvardiol',   team: 'MCI', position_type: 'DEF', is_captain: false, is_vice_captain: false },
+      { name: 'Tarkowski',  team: 'EVE', position_type: 'DEF', is_captain: false, is_vice_captain: false },
+      { name: 'Muñoz',      team: 'CRY', position_type: 'DEF', is_captain: false, is_vice_captain: false },
+      { name: 'Salah',      team: 'LIV', position_type: 'MID', is_captain: false, is_vice_captain: true },
+      { name: 'Rice',       team: 'ARS', position_type: 'MID', is_captain: false, is_vice_captain: false },
+      { name: 'Wirtz',      team: 'LIV', position_type: 'MID', is_captain: false, is_vice_captain: false },
+      { name: 'Gakpo',      team: 'LIV', position_type: 'MID', is_captain: false, is_vice_captain: false },
+      { name: 'João Pedro', team: 'CHE', position_type: 'FWD', is_captain: false, is_vice_captain: false },
+      { name: 'Watkins',    team: 'AVL', position_type: 'FWD', is_captain: false, is_vice_captain: false },
+    ],
+    subs: [
+      { name: 'Forster', team: 'BOU', position_type: 'GKP', is_captain: false, is_vice_captain: false },
+      { name: 'Rogers',  team: 'CHE', position_type: 'MID', is_captain: false, is_vice_captain: false },
+      { name: 'Thiago',  team: 'BRE', position_type: 'FWD', is_captain: false, is_vice_captain: false },
+      { name: 'Lacroix', team: 'CHE', position_type: 'DEF', is_captain: false, is_vice_captain: false },
+    ],
+  },
+  transfers: [
+    { element_in_name: 'Salah',   element_out_name: 'Anderson', cost: -4 },
+    { element_in_name: 'Wirtz',   element_out_name: 'Eze',      cost: 0 },
+  ],
+  chips: ['wildcard'],
+};
+
+const PLAYERS = [
+  { name: 'Fran',      score: 120, rank: 1, awards: ['最佳经理'] },
+  { name: 'remember',  score: 98,  rank: 2, awards: [] },
+  { name: '欧巡',       score: 96,  rank: 3, awards: ['最大赢家'] },
+  { name: '中国合伙人', score: 88,  rank: 4, awards: [] },
+];
+
+/* ================= 渲染（与正式页同款 class，复用 style.css） ================= */
+const $ = id => document.getElementById(id);
+
+function avatarImg(src, alt, cls) {
+  return `<img class="${cls}" src="${src}" alt="${alt}">`;
+}
+
+function renderAccountCard() {
+  $('account-card').innerHTML = `
+    ${avatarImg(mockAvatar('F', 5), '账号头像', 'account-avatar')}
+    <div class="account-info">
+      <div class="account-name">我们是FPL的接龙高手！</div>
+      <div class="account-season">赛季 2026-27</div>
+      <div class="account-stats">
+        <div class="stat"><span class="stat-label">总积分</span><span class="stat-value">410</span></div>
+        <div class="stat"><span class="stat-label">Overall Rank</span><span class="stat-value">12,001</span></div>
+      </div>
+    </div>`;
+}
+
+function gwRowHtml(item) {
+  const m = managerOf(item.gw);
+  const avatar = m ? avatarImg(m.avatar, m.name, 'avatar') : '';
+  const name = m ? m.name : '<span class="gw-system">系统随机阵容</span>';
+  const badge = item.status === 'live'
+    ? '<span class="badge badge-live">进行中</span>'
+    : item.status === 'upcoming'
+      ? '<span class="badge badge-upcoming">未开始</span>' : '';
+  return `
+    <div class="gw-item ${item.gw === 3 ? 'open' : ''}" data-gw="${item.gw}">
+      <div class="gw-head">
+        <span class="gw-number">GW${item.gw}</span>
+        <span class="gw-manager">${avatar}${name}</span>
+        <span class="gw-score">${item.score == null ? '—' : item.score} pts</span>
+        <span class="gw-rank">OR ${item.overall_rank == null ? '—' : item.overall_rank.toLocaleString('en-US')}</span>
+        ${badge}
+        <span class="gw-toggle">${item.gw === 3 ? '▾' : '▸'}</span>
+      </div>
+      <div class="gw-detail loaded">${item.gw === 3 ? gwDetailHtml(GW3_DETAIL) : ''}</div>
+    </div>`;
+}
+
+function gwDetailHtml(g) {
+  return lineupHtml(g.lineup) + transfersHtml(g.transfers) + chipsHtml(g.chips);
+}
+
+function lineupHtml(lineup) {
+  const groups = { GKP: [], DEF: [], MID: [], FWD: [] };
+  (lineup.starters || []).forEach(p => groups[p.position_type].push(p));
+  const groupHtml = ['GKP', 'DEF', 'MID', 'FWD'].map(pos => `
+    <div class="pos-group">
+      <span class="pos-label">${ { GKP: '门将', DEF: '后卫', MID: '中场', FWD: '前锋' }[pos] }</span>
+      <div class="pos-list">${groups[pos].map(playerHtml).join('')}</div>
+    </div>`).join('');
+  const subsHtml = `
+    <div class="pos-group">
+      <span class="pos-label">替补</span>
+      <div class="pos-list">${lineup.subs.map(playerHtml).join('')}</div>
+    </div>`;
+  return sectionHtml('阵容', groupHtml + subsHtml);
+}
+
+function playerHtml(p) {
+  const badge = p.is_captain ? '<span class="tag tag-c">C</span>'
+    : p.is_vice_captain ? '<span class="tag tag-vc">V</span>' : '';
+  return `<div class="player"><span class="player-name">${p.name}</span>
+    <span class="player-team">${p.team}</span>${badge}</div>`;
+}
+
+function transfersHtml(transfers) {
+  const rows = transfers.map(t => `
+    <div class="transfer-row">
+      <span class="transfer-out">${t.element_out_name}</span>
+      <span class="transfer-arrow">→</span>
+      <span class="transfer-in">${t.element_in_name}</span>
+      <span class="transfer-cost">${t.cost}</span>
+    </div>`).join('');
+  return sectionHtml(`转会（${transfers.length} 笔）`, rows);
+}
+
+function chipsHtml(chips) {
+  const map = { wildcard: '外卡 Wildcard', free_hit: '自由转会 Free Hit',
+    bench_boost: '替补加成 Bench Boost', triple_captain: '三倍队长 Triple Captain' };
+  const badges = chips.map(c => `<span class="chip-badge">${map[c] || c}</span>`).join('');
+  return sectionHtml('芯片', badges);
+}
+
+function sectionHtml(title, body) {
+  return `<div class="gw-section"><h4 class="gw-section-title">${title}</h4>${body}</div>`;
+}
+
+function renderTimeline() {
+  $('gw-timeline').innerHTML = GW_LIST.map(gwRowHtml).join('');
+  bindClicks();
+}
+
+function renderLeaderboard() {
+  const rows = PLAYERS.map((p, i) => `
+    <div class="lb-row ${i === 0 ? 'open' : ''}">
+      <div class="lb-row-main">
+        <span class="lb-rank">${p.rank}</span>
+        ${avatarImg(mockAvatar(p.name, i), p.name, 'avatar avatar-sm')}
+        <span class="lb-name">${p.name}</span>
+        <span class="lb-score">${p.score}</span>
+        <span class="lb-toggle">${i === 0 ? '▾' : '▸'}</span>
+      </div>
+      ${p.awards.length ? `<div class="lb-awards-line">${p.awards.map(a =>
+        `<span class="award-badge">${a}</span>`).join('')}</div>` : ''}
+      <div class="lb-detail">
+        <div class="lb-detail-inner">
+          <div class="lb-detail-row"><span>接管范围</span><span>GW${MANAGERS[i].start_gw} - GW${MANAGERS[i].end_gw}</span></div>
+          <div class="lb-detail-row"><span>平均 OR</span><span>14,986</span></div>
+          <div class="lb-detail-row"><span>最佳 OR</span><span>13,902</span></div>
+          <div class="lb-detail-row"><span>平均得分</span><span>87.5</span></div>
+          <div class="lb-detail-row"><span>最高得分</span><span>102</span></div>
+          <div class="lb-detail-row"><span>最低得分</span><span>71</span></div>
+          <div class="lb-detail-row"><span>接管期排名变化</span><span>-1,240</span></div>
+        </div>
+      </div>
+    </div>`).join('');
+  $('leaderboard').innerHTML = `
+    <div class="lb-header">
+      <h2>玩家积分榜</h2>
+      <span class="lb-hint">示例：未来接入后端积分后自动排序 + 奖项展示</span>
+    </div>
+    <div class="lb-table">${rows}</div>`;
+}
+
+/* ================= 交互 ================= */
+function bindClicks() {
+  document.querySelectorAll('.gw-head').forEach(head => {
+    head.addEventListener('click', () => {
+      const item = head.closest('.gw-item');
+      const open = item.classList.toggle('open');
+      head.querySelector('.gw-toggle').textContent = open ? '▾' : '▸';
+    });
+  });
+  document.querySelectorAll('.lb-row-main').forEach(main => {
+    main.addEventListener('click', () => {
+      const row = main.closest('.lb-row');
+      const open = row.classList.toggle('open');
+      main.querySelector('.lb-toggle').textContent = open ? '▾' : '▸';
+    });
+  });
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b === btn));
+      document.querySelectorAll('.tab-panel').forEach(p =>
+        p.classList.toggle('active', p.id === 'tab-' + btn.dataset.tab));
+    });
+  });
+}
+
+renderAccountCard();
+renderTimeline();
+renderLeaderboard();
+</script>
+</body>
+</html>

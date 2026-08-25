@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/fpl-chain-tracker/summary.schema.json",
+  "title": "summary.json — GW 时间线概要（design.md §8.2）",
+  "type": "object",
+  "required": ["season", "data_version", "updated_at_utc", "gw_list"],
+  "properties": {
+    "season": { "type": "string" },
+    "data_version": { "type": "integer" },
+    "updated_at_utc": { "type": "string" },
+    "gw_list": {
+      "type": "array",
+      "minItems": 38,
+      "maxItems": 38,
+      "items": {
+        "type": "object",
+        "required": ["gw", "status", "manager", "manager_avatar", "score", "total_points", "overall_rank", "gw_rank", "chips", "transfers_count", "transfers_cost", "has_detail"],
+        "properties": {
+          "gw": { "type": "integer", "minimum": 1, "maximum": 38 },
+          "status": { "enum": ["upcoming", "live", "finished", "sealed"] },
+          "manager": { "type": ["string", "null"] },
+          "manager_avatar": { "type": ["string", "null"] },
+          "score": { "type": ["integer", "null"] },
+          "total_points": { "type": ["integer", "null"] },
+          "overall_rank": { "type": ["integer", "null"] },
+          "gw_rank": { "type": ["integer", "null"] },
+          "chips": { "type": ["array", "null"], "items": { "enum": ["wildcard", "free_hit", "bench_boost", "triple_captain"] } },
+          "transfers_count": { "type": "integer" },
+          "transfers_cost": { "type": "number" },
+          "has_detail": { "type": "boolean" }
+        }
+      }
+    }
+  }
+}

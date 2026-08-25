@@ -1,0 +1,75 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/fpl-chain-tracker/meta.schema.json",
+  "title": "meta.json — 站点头部元数据（design.md §8.1）",
+  "type": "object",
+  "required": ["season", "team", "current_gw", "next_deadline", "events", "managers", "data_version", "generated_at_utc", "server_timestamp"],
+  "properties": {
+    "season": { "type": "string", "pattern": "^\\d{4}-\\d{2}$" },
+    "team": {
+      "type": "object",
+      "required": ["id", "name", "started_event", "current_event"],
+      "properties": {
+        "id": { "type": "integer" },
+        "name": { "type": "string" },
+        "player_first_name": { "type": "string" },
+        "player_last_name": { "type": "string" },
+        "started_event": { "type": "integer" },
+        "current_event": { "type": "integer" }
+      }
+    },
+    "current_gw": {
+      "type": "object",
+      "required": ["id", "status"],
+      "properties": {
+        "id": { "type": ["integer", "null"] },
+        "status": { "enum": ["pre_season", "live", "season_ended"] }
+      }
+    },
+    "next_deadline": {
+      "type": ["object", "null"],
+      "required": ["gw", "deadline_utc", "deadline_beijing", "deadline_timestamp"],
+      "properties": {
+        "gw": { "type": "integer" },
+        "deadline_utc": { "type": "string" },
+        "deadline_beijing": { "type": "string" },
+        "deadline_timestamp": { "type": "integer" }
+      }
+    },
+    "events": {
+      "type": "array",
+      "minItems": 38,
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "deadline_utc", "deadline_beijing", "deadline_timestamp", "finished", "status"],
+        "properties": {
+          "id": { "type": "integer", "minimum": 1, "maximum": 38 },
+          "name": { "type": "string" },
+          "deadline_utc": { "type": "string" },
+          "deadline_beijing": { "type": "string" },
+          "deadline_timestamp": { "type": "integer" },
+          "finished": { "type": "boolean" },
+          "status": { "enum": ["upcoming", "live", "finished", "sealed"] }
+        }
+      }
+    },
+    "managers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["name", "start_gw", "end_gw", "avatar", "active"],
+        "properties": {
+          "name": { "type": "string" },
+          "start_gw": { "type": "integer" },
+          "end_gw": { "type": "integer" },
+          "avatar": { "type": "string" },
+          "active": { "type": "boolean" }
+        }
+      }
+    },
+    "data_version": { "type": "integer" },
+    "generated_at_utc": { "type": "string" },
+    "server_timestamp": { "type": "integer" }
+  }
+}

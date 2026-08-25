@@ -1,0 +1,793 @@
+<artifact identifier="design-preview-cinematic" type="text/html" title="接龙赛 · 电影感改版">
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>接龙赛 · 赛程与积分榜</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <!-- 兜底样式：若同目录的 cinematic.css 已保存，link 会接管（link 在 style 之后）；可删掉此块 -->
+  <style>
+    /* ============================================================
+       接龙赛 · 电影感改版 · 兜底内嵌（与 cinematic.css 内容一致）
+       ============================================================ */
+    :root {
+      --bg: #050505;
+      --fg: #f4efe6;
+      --muted: #a49a8b;
+      --gold: #e8b36a;
+      --gold-strong: #f6cd8c;
+      --gold-dim: rgba(232, 179, 106, 0.45);
+      --line: rgba(255, 255, 255, 0.08);
+      --line-gold: rgba(232, 179, 106, 0.28);
+      --font-display: "Instrument Serif", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+      --font-body: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+      --glass: linear-gradient(180deg, rgba(255,255,255,0.055), rgba(255,255,255,0.018));
+      --shadow-card: inset 0 1px 0 rgba(255,255,255,0.06), 0 24px 70px rgba(0,0,0,0.5);
+    }
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(ellipse 90% 56% at 50% -10%, rgba(232, 179, 106, 0.17), transparent 62%),
+        radial-gradient(ellipse 58% 42% at 88% 108%, rgba(232, 179, 106, 0.07), transparent 65%),
+        radial-gradient(ellipse 46% 38% at 8% 96%, rgba(255, 255, 255, 0.035), transparent 60%),
+        linear-gradient(180deg, #090909 0%, #050505 28%, #020202 100%);
+      animation: haze 12s ease-in-out infinite alternate;
+    }
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: 0.06;
+      mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 180px 180px;
+    }
+    @keyframes haze {
+      from { opacity: 0.82; transform: translate3d(0, 0, 0) scale(1); }
+      to   { opacity: 1;    transform: translate3d(0, -14px, 0) scale(1.04); }
+    }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes panelIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .preview-banner {
+      width: fit-content;
+      margin: 22px auto 0;
+      padding: 7px 16px;
+      border-radius: 999px;
+      font-size: 12px;
+      letter-spacing: 0.09em;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid var(--line);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+    .site-header {
+      position: relative;
+      padding: 54px 20px 36px;
+      text-align: center;
+    }
+    .site-header::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 12%; right: 12%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(232,179,106,0.55), transparent);
+    }
+    .site-title {
+      margin: 0;
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: clamp(48px, 8vw, 92px);
+      line-height: 1.02;
+      letter-spacing: 0.01em;
+      color: var(--fg);
+      text-shadow: 0 0 70px rgba(232, 179, 106, 0.16);
+      animation: rise 0.7s cubic-bezier(0.22, 0.9, 0.26, 1) both;
+    }
+    .site-title::after {
+      content: "";
+      display: block;
+      width: 64px;
+      height: 2px;
+      margin: 16px auto 0;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .tabs {
+      display: flex;
+      gap: 6px;
+      max-width: 480px;
+      margin: 0 auto 38px;
+      padding: 6px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--line);
+      backdrop-filter: blur(18px) saturate(150%);
+      -webkit-backdrop-filter: blur(18px) saturate(150%);
+    }
+    .tab-btn {
+      flex: 1;
+      min-height: 42px;
+      padding: 10px 18px;
+      border: 0;
+      border-radius: 999px;
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      color: var(--muted);
+      background: transparent;
+      cursor: pointer;
+      transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .tab-btn:hover { color: var(--fg); }
+    .tab-btn.active {
+      color: #f7e7cc;
+      background: linear-gradient(180deg, rgba(232,179,106,0.2), rgba(232,179,106,0.08));
+      box-shadow: inset 0 0 0 1px var(--line-gold), 0 8px 28px rgba(0,0,0,0.35);
+    }
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 20px 70px;
+    }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; animation: panelIn 0.45s ease both; }
+    .account-card {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 22px 26px;
+      border-radius: 18px;
+      background: var(--glass);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-card);
+      backdrop-filter: blur(20px) saturate(150%);
+      -webkit-backdrop-filter: blur(20px) saturate(150%);
+      animation: rise 0.6s cubic-bezier(0.22, 0.9, 0.26, 1) both;
+    }
+    .account-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      box-shadow: 0 0 0 2px var(--line-gold), 0 0 44px rgba(232, 179, 106, 0.16);
+    }
+    .account-info { flex: 1; min-width: 0; }
+    .account-name {
+      font-family: var(--font-display);
+      font-size: 26px;
+      line-height: 1.15;
+      color: var(--fg);
+    }
+    .account-season {
+      margin-top: 2px;
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .account-stats { display: flex; gap: 30px; align-items: center; }
+    .stat { text-align: right; }
+    .stat-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .stat-value {
+      display: block;
+      font-size: 27px;
+      font-weight: 600;
+      line-height: 1.2;
+      color: var(--fg);
+      font-variant-numeric: tabular-nums;
+    }
+    .section-title {
+      margin: 30px 0 18px;
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: clamp(26px, 4vw, 36px);
+      color: var(--fg);
+    }
+    .gw-timeline { display: flex; flex-direction: column; gap: 12px; }
+    .gw-item {
+      border-radius: 16px;
+      background: var(--glass);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-card);
+      backdrop-filter: blur(20px) saturate(150%);
+      -webkit-backdrop-filter: blur(20px) saturate(150%);
+      overflow: hidden;
+      transition: border-color 0.35s ease, box-shadow 0.35s ease;
+      animation: rise 0.55s cubic-bezier(0.22, 0.9, 0.26, 1) both;
+    }
+    .gw-item:nth-child(2) { animation-delay: 0.05s; }
+    .gw-item:nth-child(3) { animation-delay: 0.1s; }
+    .gw-item:nth-child(4) { animation-delay: 0.15s; }
+    .gw-item:nth-child(5) { animation-delay: 0.2s; }
+    .gw-item.open {
+      border-color: var(--line-gold);
+      box-shadow: var(--shadow-card), 0 0 0 1px rgba(232,179,106,0.08), 0 0 60px rgba(232,179,106,0.06);
+    }
+    .gw-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 18px;
+      cursor: pointer;
+      transition: background 0.25s ease;
+    }
+    .gw-head:hover { background: rgba(255, 255, 255, 0.035); }
+    .gw-number {
+      min-width: 58px;
+      font-family: var(--font-display);
+      font-size: 23px;
+      color: var(--gold);
+      letter-spacing: 0.01em;
+    }
+    .gw-manager {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 0;
+      font-weight: 560;
+      color: var(--fg);
+    }
+    .avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.1);
+    }
+    .gw-system { color: var(--muted); font-weight: 400; }
+    .gw-score {
+      font-size: 18px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      color: var(--fg);
+    }
+    .gw-rank {
+      font-size: 13px;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+    }
+    .badge {
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+    }
+    .badge-live {
+      background: rgba(232, 179, 106, 0.15);
+      color: var(--gold-strong);
+      border: 1px solid var(--line-gold);
+    }
+    .badge-upcoming {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--muted);
+      border: 1px solid var(--line);
+    }
+    .gw-toggle { color: var(--gold-dim); font-size: 14px; }
+    .gw-detail {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(0.22, 0.9, 0.26, 1);
+    }
+    .gw-item.open .gw-detail {
+      max-height: 2000px;
+      padding: 0 18px 20px;
+    }
+    .gw-section { margin-top: 18px; }
+    .gw-section-title {
+      margin: 0 0 10px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .pos-group {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+    .pos-label {
+      min-width: 42px;
+      padding-top: 7px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+    .pos-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .player {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 13px;
+      border-radius: 999px;
+      font-size: 14px;
+      background: rgba(255, 255, 255, 0.045);
+      border: 1px solid var(--line);
+    }
+    .player-name { color: var(--fg); font-weight: 500; }
+    .player-team { color: var(--muted); font-size: 12px; letter-spacing: 0.04em; }
+    .tag {
+      display: inline-grid;
+      place-items: center;
+      min-width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .tag-c { background: var(--gold); color: #1a1306; box-shadow: 0 0 18px rgba(232,179,106,0.35); }
+    .tag-vc { background: rgba(255, 255, 255, 0.13); color: var(--fg); }
+    .transfer-row {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto;
+      align-items: center;
+      gap: 12px;
+      padding: 9px 0;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.07);
+    }
+    .transfer-row:last-child { border-bottom: 0; }
+    .transfer-out { text-align: right; color: var(--muted); }
+    .transfer-in { color: var(--fg); font-weight: 600; }
+    .transfer-arrow { color: var(--gold); }
+    .transfer-cost { color: var(--muted); font-variant-numeric: tabular-nums; font-size: 13px; }
+    .chip-badge {
+      display: inline-block;
+      margin: 0 8px 8px 0;
+      padding: 7px 13px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--gold-strong);
+      background: rgba(232, 179, 106, 0.08);
+      border: 1px solid var(--line-gold);
+    }
+    .lb-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      padding: 20px 24px;
+      margin-bottom: 16px;
+      border-radius: 16px;
+      background: var(--glass);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-card);
+      backdrop-filter: blur(20px) saturate(150%);
+      -webkit-backdrop-filter: blur(20px) saturate(150%);
+    }
+    .lb-header h2 {
+      margin: 0;
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: clamp(25px, 4vw, 34px);
+      color: var(--fg);
+    }
+    .lb-hint { font-size: 13px; color: var(--muted); }
+    .lb-table { display: flex; flex-direction: column; gap: 10px; }
+    .lb-row {
+      border-radius: 16px;
+      background: var(--glass);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-card);
+      backdrop-filter: blur(20px) saturate(150%);
+      -webkit-backdrop-filter: blur(20px) saturate(150%);
+      overflow: hidden;
+      transition: border-color 0.35s ease, box-shadow 0.35s ease;
+      animation: rise 0.55s cubic-bezier(0.22, 0.9, 0.26, 1) both;
+    }
+    .lb-row:nth-child(2) { animation-delay: 0.06s; }
+    .lb-row:nth-child(3) { animation-delay: 0.12s; }
+    .lb-row:nth-child(4) { animation-delay: 0.18s; }
+    .lb-row.open {
+      border-color: var(--line-gold);
+      box-shadow: var(--shadow-card), 0 0 0 1px rgba(232,179,106,0.08), 0 0 60px rgba(232,179,106,0.06);
+    }
+    .lb-row-main {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 18px;
+      cursor: pointer;
+      transition: background 0.25s ease;
+    }
+    .lb-row-main:hover { background: rgba(255, 255, 255, 0.035); }
+    .lb-rank {
+      min-width: 46px;
+      font-family: var(--font-display);
+      font-size: 34px;
+      line-height: 1;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+      text-align: center;
+      transition: color 0.3s ease, text-shadow 0.3s ease;
+    }
+    .lb-row:first-child .lb-rank {
+      color: var(--gold);
+      text-shadow: 0 0 34px rgba(232, 179, 106, 0.45);
+    }
+    .avatar-sm {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.12);
+    }
+    .lb-name { flex: 1; min-width: 0; font-weight: 600; font-size: 17px; color: var(--fg); }
+    .lb-score {
+      font-size: 22px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      color: var(--fg);
+    }
+    .lb-toggle { color: var(--gold-dim); font-size: 15px; }
+    .lb-awards-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 0 18px 14px;
+    }
+    .award-badge {
+      padding: 5px 11px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--gold-strong);
+      background: rgba(232, 179, 106, 0.08);
+      border: 1px solid var(--line-gold);
+    }
+    .lb-detail {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(0.22, 0.9, 0.26, 1);
+    }
+    .lb-row.open .lb-detail { max-height: 900px; padding: 0 18px 18px; }
+    .lb-detail-inner {
+      padding: 14px 18px;
+      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.28);
+      border: 1px solid var(--line);
+    }
+    .lb-detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      padding: 7px 0;
+      font-size: 14px;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.06);
+    }
+    .lb-detail-row:last-child { border-bottom: 0; }
+    .lb-detail-row span:first-child { color: var(--muted); }
+    .lb-detail-row span:last-child { color: var(--fg); font-variant-numeric: tabular-nums; font-weight: 550; }
+    .site-footer {
+      padding: 22px 20px 38px;
+      text-align: center;
+      font-size: 13px;
+      letter-spacing: 0.02em;
+      color: var(--muted);
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      background: linear-gradient(180deg, transparent, rgba(0,0,0,0.5));
+    }
+    @media (max-width: 640px) {
+      .site-header { padding: 40px 16px 28px; }
+      .container { padding: 0 14px 50px; }
+      .account-card { flex-wrap: wrap; padding: 18px; }
+      .account-avatar { width: 54px; height: 54px; }
+      .account-stats { width: 100%; justify-content: flex-end; gap: 24px; }
+      .gw-head { flex-wrap: wrap; row-gap: 8px; }
+      .gw-number { order: 1; }
+      .gw-score { order: 3; }
+      .gw-rank { order: 4; }
+      .badge { order: 5; }
+      .gw-toggle { order: 6; }
+      .gw-manager { order: 2; flex: 1 1 100%; }
+      .pos-group { flex-direction: column; gap: 6px; }
+      .pos-label { padding-top: 0; }
+      .lb-header { padding: 16px 18px; }
+      .lb-row-main { padding: 14px; gap: 10px; }
+      .lb-rank { font-size: 28px; min-width: 36px; }
+      .lb-name { font-size: 15px; }
+      .lb-score { font-size: 19px; }
+    }
+  </style>
+  <link rel="stylesheet" href="./assets/css/cinematic.css" />
+</head>
+<body>
+
+<div class="preview-banner">UI 设计原型 · 数据为 Mock（未接入真实 JSON）</div>
+
+<header class="site-header">
+  <h1 class="site-title">接龙赛</h1>
+</header>
+
+<nav class="tabs" role="tablist">
+  <button class="tab-btn active" data-tab="relay" role="tab">接龙赛</button>
+  <button class="tab-btn" data-tab="leaderboard" role="tab">玩家积分榜</button>
+</nav>
+
+<main class="container">
+  <section id="tab-relay" class="tab-panel active">
+    <div id="account-card" class="account-card"></div>
+    <h2 class="section-title">Gameweek 时间线</h2>
+    <div id="gw-timeline" class="gw-timeline"></div>
+  </section>
+  <section id="tab-leaderboard" class="tab-panel">
+    <div id="leaderboard" class="leaderboard"></div>
+  </section>
+</main>
+
+<footer class="site-footer">UI 原型 · 视觉优化时可直接替换 assets/css/style.css</footer>
+
+<script>
+'use strict';
+
+/* ================= Mock 数据（模拟 data/*.json 结构） ================= */
+const MOCK_AVATAR_COLORS = ['#3b5bdb', '#12b886', '#f59f00', '#e8590c', '#7048e8',
+  '#0ca678', '#d6336c', '#1098ad', '#5c940d'];
+
+function mockAvatar(name, i) {
+  const color = MOCK_AVATAR_COLORS[i % MOCK_AVATAR_COLORS.length];
+  const ch = name.charAt(0);
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='96' height='96'>` +
+    `<circle cx='48' cy='48' r='48' fill='${color}'/>` +
+    `<text x='48' y='64' font-size='44' fill='#fff' text-anchor='middle' font-family='sans-serif'>${ch}</text></svg>`;
+  return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+}
+
+const MANAGERS = [
+  { name: 'Fran',      start_gw: 3,  end_gw: 6,  avatar: mockAvatar('Fran', 0) },
+  { name: 'remember',  start_gw: 7,  end_gw: 10, avatar: mockAvatar('remember', 1) },
+  { name: '欧巡',       start_gw: 11, end_gw: 14, avatar: mockAvatar('欧巡', 2) },
+  { name: '中国合伙人', start_gw: 15, end_gw: 18, avatar: mockAvatar('中国合伙人', 3) },
+];
+
+function managerOf(gw) {
+  return MANAGERS.find(m => m.start_gw <= gw && gw <= m.end_gw) || null;
+}
+
+const GW_LIST = [
+  { gw: 1, status: 'sealed', score: 58,  total_points: 58,  overall_rank: 2201654, gw_rank: 2201657, chips: [], transfers_count: 0, transfers_cost: 0 },
+  { gw: 2, status: 'sealed', score: 47,  total_points: 105, overall_rank: 2011832, gw_rank: 110245, chips: [], transfers_count: 2, transfers_cost: -4 },
+  { gw: 3, status: 'sealed', score: 92,  total_points: 254, overall_rank: 15342,   gw_rank: 882,    chips: ['wildcard'], transfers_count: 2, transfers_cost: -4 },
+  { gw: 4, status: 'live',   score: 41,  total_points: 410, overall_rank: 12001,   gw_rank: 88331,  chips: [], transfers_count: 1, transfers_cost: 0 },
+  { gw: 5, status: 'upcoming', score: null, total_points: null, overall_rank: null, gw_rank: null, chips: null, transfers_count: 0, transfers_cost: 0 },
+];
+
+const GW3_DETAIL = {
+  lineup: {
+    starters: [
+      { name: 'Donnarumma', team: 'MCI', position_type: 'GKP', is_captain: false, is_vice_captain: false },
+      { name: 'Gabriel',    team: 'ARS', position_type: 'DEF', is_captain: true,  is_vice_captain: false },
+      { name: 'Gvardiol',   team: 'MCI', position_type: 'DEF', is_captain: false, is_vice_captain: false },
+      { name: 'Tarkowski',  team: 'EVE', position_type: 'DEF', is_captain: false, is_vice_captain: false },
+      { name: 'Muñoz',      team: 'CRY', position_type: 'DEF', is_captain: false, is_vice_captain: false },
+      { name: 'Salah',      team: 'LIV', position_type: 'MID', is_captain: false, is_vice_captain: true },
+      { name: 'Rice',       team: 'ARS', position_type: 'MID', is_captain: false, is_vice_captain: false },
+      { name: 'Wirtz',      team: 'LIV', position_type: 'MID', is_captain: false, is_vice_captain: false },
+      { name: 'Gakpo',      team: 'LIV', position_type: 'MID', is_captain: false, is_vice_captain: false },
+      { name: 'João Pedro', team: 'CHE', position_type: 'FWD', is_captain: false, is_vice_captain: false },
+      { name: 'Watkins',    team: 'AVL', position_type: 'FWD', is_captain: false, is_vice_captain: false },
+    ],
+    subs: [
+      { name: 'Forster', team: 'BOU', position_type: 'GKP', is_captain: false, is_vice_captain: false },
+      { name: 'Rogers',  team: 'CHE', position_type: 'MID', is_captain: false, is_vice_captain: false },
+      { name: 'Thiago',  team: 'BRE', position_type: 'FWD', is_captain: false, is_vice_captain: false },
+      { name: 'Lacroix', team: 'CHE', position_type: 'DEF', is_captain: false, is_vice_captain: false },
+    ],
+  },
+  transfers: [
+    { element_in_name: 'Salah',   element_out_name: 'Anderson', cost: -4 },
+    { element_in_name: 'Wirtz',   element_out_name: 'Eze',      cost: 0 },
+  ],
+  chips: ['wildcard'],
+};
+
+const PLAYERS = [
+  { name: 'Fran',      score: 120, rank: 1, awards: ['最佳经理'] },
+  { name: 'remember',  score: 98,  rank: 2, awards: [] },
+  { name: '欧巡',       score: 96,  rank: 3, awards: ['最大赢家'] },
+  { name: '中国合伙人', score: 88,  rank: 4, awards: [] },
+];
+
+/* ================= 渲染（与正式页同款 class，复用 style.css） ================= */
+const $ = id => document.getElementById(id);
+
+function avatarImg(src, alt, cls) {
+  return `<img class="${cls}" src="${src}" alt="${alt}">`;
+}
+
+function renderAccountCard() {
+  $('account-card').innerHTML = `
+    ${avatarImg(mockAvatar('F', 5), '账号头像', 'account-avatar')}
+    <div class="account-info">
+      <div class="account-name">我们是FPL的接龙高手！</div>
+      <div class="account-season">赛季 2026-27</div>
+      <div class="account-stats">
+        <div class="stat"><span class="stat-label">总积分</span><span class="stat-value">410</span></div>
+        <div class="stat"><span class="stat-label">Overall Rank</span><span class="stat-value">12,001</span></div>
+      </div>
+    </div>`;
+}
+
+function gwRowHtml(item) {
+  const m = managerOf(item.gw);
+  const avatar = m ? avatarImg(m.avatar, m.name, 'avatar') : '';
+  const name = m ? m.name : '<span class="gw-system">系统随机阵容</span>';
+  const badge = item.status === 'live'
+    ? '<span class="badge badge-live">进行中</span>'
+    : item.status === 'upcoming'
+      ? '<span class="badge badge-upcoming">未开始</span>' : '';
+  return `
+    <div class="gw-item ${item.gw === 3 ? 'open' : ''}" data-gw="${item.gw}">
+      <div class="gw-head">
+        <span class="gw-number">GW${item.gw}</span>
+        <span class="gw-manager">${avatar}${name}</span>
+        <span class="gw-score">${item.score == null ? '—' : item.score} pts</span>
+        <span class="gw-rank">OR ${item.overall_rank == null ? '—' : item.overall_rank.toLocaleString('en-US')}</span>
+        ${badge}
+        <span class="gw-toggle">${item.gw === 3 ? '▾' : '▸'}</span>
+      </div>
+      <div class="gw-detail loaded">${item.gw === 3 ? gwDetailHtml(GW3_DETAIL) : ''}</div>
+    </div>`;
+}
+
+function gwDetailHtml(g) {
+  return lineupHtml(g.lineup) + transfersHtml(g.transfers) + chipsHtml(g.chips);
+}
+
+function lineupHtml(lineup) {
+  const groups = { GKP: [], DEF: [], MID: [], FWD: [] };
+  (lineup.starters || []).forEach(p => groups[p.position_type].push(p));
+  const groupHtml = ['GKP', 'DEF', 'MID', 'FWD'].map(pos => `
+    <div class="pos-group">
+      <span class="pos-label">${ { GKP: '门将', DEF: '后卫', MID: '中场', FWD: '前锋' }[pos] }</span>
+      <div class="pos-list">${groups[pos].map(playerHtml).join('')}</div>
+    </div>`).join('');
+  const subsHtml = `
+    <div class="pos-group">
+      <span class="pos-label">替补</span>
+      <div class="pos-list">${lineup.subs.map(playerHtml).join('')}</div>
+    </div>`;
+  return sectionHtml('阵容', groupHtml + subsHtml);
+}
+
+function playerHtml(p) {
+  const badge = p.is_captain ? '<span class="tag tag-c">C</span>'
+    : p.is_vice_captain ? '<span class="tag tag-vc">V</span>' : '';
+  return `<div class="player"><span class="player-name">${p.name}</span>
+    <span class="player-team">${p.team}</span>${badge}</div>`;
+}
+
+function transfersHtml(transfers) {
+  const rows = transfers.map(t => `
+    <div class="transfer-row">
+      <span class="transfer-out">${t.element_out_name}</span>
+      <span class="transfer-arrow">→</span>
+      <span class="transfer-in">${t.element_in_name}</span>
+      <span class="transfer-cost">${t.cost}</span>
+    </div>`).join('');
+  return sectionHtml(`转会（${transfers.length} 笔）`, rows);
+}
+
+function chipsHtml(chips) {
+  const map = { wildcard: '外卡 Wildcard', free_hit: '自由转会 Free Hit',
+    bench_boost: '替补加成 Bench Boost', triple_captain: '三倍队长 Triple Captain' };
+  const badges = chips.map(c => `<span class="chip-badge">${map[c] || c}</span>`).join('');
+  return sectionHtml('芯片', badges);
+}
+
+function sectionHtml(title, body) {
+  return `<div class="gw-section"><h4 class="gw-section-title">${title}</h4>${body}</div>`;
+}
+
+function renderTimeline() {
+  $('gw-timeline').innerHTML = GW_LIST.map(gwRowHtml).join('');
+  bindClicks();
+}
+
+function renderLeaderboard() {
+  const rows = PLAYERS.map((p, i) => `
+    <div class="lb-row ${i === 0 ? 'open' : ''}">
+      <div class="lb-row-main">
+        <span class="lb-rank">${p.rank}</span>
+        ${avatarImg(mockAvatar(p.name, i), p.name, 'avatar avatar-sm')}
+        <span class="lb-name">${p.name}</span>
+        <span class="lb-score">${p.score}</span>
+        <span class="lb-toggle">${i === 0 ? '▾' : '▸'}</span>
+      </div>
+      ${p.awards.length ? `<div class="lb-awards-line">${p.awards.map(a =>
+        `<span class="award-badge">${a}</span>`).join('')}</div>` : ''}
+      <div class="lb-detail">
+        <div class="lb-detail-inner">
+          <div class="lb-detail-row"><span>接管范围</span><span>GW${MANAGERS[i].start_gw} - GW${MANAGERS[i].end_gw}</span></div>
+          <div class="lb-detail-row"><span>平均 OR</span><span>14,986</span></div>
+          <div class="lb-detail-row"><span>最佳 OR</span><span>13,902</span></div>
+          <div class="lb-detail-row"><span>平均得分</span><span>87.5</span></div>
+          <div class="lb-detail-row"><span>最高得分</span><span>102</span></div>
+          <div class="lb-detail-row"><span>最低得分</span><span>71</span></div>
+          <div class="lb-detail-row"><span>接管期排名变化</span><span>-1,240</span></div>
+        </div>
+      </div>
+    </div>`).join('');
+  $('leaderboard').innerHTML = `
+    <div class="lb-header">
+      <h2>玩家积分榜</h2>
+      <span class="lb-hint">示例：未来接入后端积分后自动排序 + 奖项展示</span>
+    </div>
+    <div class="lb-table">${rows}</div>`;
+}
+
+/* ================= 交互 ================= */
+function bindClicks() {
+  document.querySelectorAll('.gw-head').forEach(head => {
+    head.addEventListener('click', () => {
+      const item = head.closest('.gw-item');
+      const open = item.classList.toggle('open');
+      head.querySelector('.gw-toggle').textContent = open ? '▾' : '▸';
+    });
+  });
+  document.querySelectorAll('.lb-row-main').forEach(main => {
+    main.addEventListener('click', () => {
+      const row = main.closest('.lb-row');
+      const open = row.classList.toggle('open');
+      main.querySelector('.lb-toggle').textContent = open ? '▾' : '▸';
+    });
+  });
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b === btn));
+      document.querySelectorAll('.tab-panel').forEach(p =>
+        p.classList.toggle('active', p.id === 'tab-' + btn.dataset.tab));
+    });
+  });
+}
+
+renderAccountCard();
+renderTimeline();
+renderLeaderboard();
+</script>
+</body>
+</html>
+</artifact>

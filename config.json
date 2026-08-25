@@ -1,0 +1,22 @@
+{
+  "team_id": 7557100,
+  "timezone": "Asia/Shanghai",
+  "season": "2026-27",
+  "managers": [
+    { "name": "Fran",  "start_gw": 3,  "end_gw": 6,  "avatar": "Fran.jpg" },
+    { "name": "remember",  "start_gw": 7,  "end_gw": 10, "avatar": "remember.jpg" },
+    { "name": "欧巡",   "start_gw": 11, "end_gw": 14, "avatar": "ocean.jpg" },
+    { "name": "中国合伙人", "start_gw": 15, "end_gw": 18, "avatar": "gsg.jpg" },
+    { "name": "进藤光", "start_gw": 19, "end_gw": 22, "avatar": "jtg.jpg" },
+    { "name": "香克利",  "start_gw": 23, "end_gw": 26, "avatar": "shankly.jpg" },
+    { "name": "紫葱酱", "start_gw": 27, "end_gw": 30, "avatar": "zcj.jpg" },
+    { "name": "面条", "start_gw": 31, "end_gw": 34, "avatar": "miantiao.jpg" },
+    { "name": "企鹅", "start_gw": 35, "end_gw": 38, "avatar": "penguin.jpg" }
+  ],
+  "crawl": {
+    "request_delay_seconds": 0.4,
+    "max_retries": 3,
+    "request_timeout_seconds": 10,
+    "seal_after_hours": 48
+  }
+}

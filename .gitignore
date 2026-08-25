@@ -1,0 +1,10 @@
+# API 采集产物（data/）：数据由 GitHub Actions 在服务端生成并强制提交（git add -f），
+# 本地忽略 —— 本地只提交代码逻辑，运行采集也不会产生冲突（见 README「本地运行与提交」）
+data/
+
+# Python 缓存
+__pycache__/
+*.pyc
+
+# 系统文件
+.DS_Store

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FPL 接龙赛追踪</title>
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <h1 class="site-title">接龙赛</h1>
+</header>
+
+<nav class="tabs" role="tablist">
+  <button class="tab-btn active" data-tab="relay" role="tab" aria-selected="true">接龙赛</button>
+  <button class="tab-btn" data-tab="leaderboard" role="tab" aria-selected="false">玩家积分榜</button>
+</nav>
+
+<main class="container">
+  <!-- Tab 1：接龙赛 -->
+  <section id="tab-relay" class="tab-panel active">
+    <div id="account-card" class="account-card"></div>
+    <h2 class="section-title">Gameweek 时间线</h2>
+    <div id="gw-timeline" class="gw-timeline"></div>
+  </section>
+
+  <!-- Tab 2：玩家积分榜 -->
+  <section id="tab-leaderboard" class="tab-panel">
+    <div id="leaderboard" class="leaderboard"></div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <span id="updated-at"></span>
+</footer>
+
+<script src="assets/js/app.js"></script>
+</body>
+</html>

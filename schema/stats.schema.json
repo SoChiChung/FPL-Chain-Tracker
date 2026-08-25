@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/fpl-chain-tracker/stats.schema.json",
+  "title": "stats.json — 玩家接龙统计（design.md §8.4）",
+  "type": "object",
+  "required": ["season", "data_version", "updated_at_utc", "managers", "season_totals"],
+  "properties": {
+    "season": { "type": "string" },
+    "data_version": { "type": "integer" },
+    "updated_at_utc": { "type": "string" },
+    "managers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "start_gw", "end_gw", "gw_count", "completed", "live", "avg_rank", "best_rank", "avg_score", "best_score", "worst_score", "total_score", "rank_change", "chips_used", "total_transfers", "total_transfers_cost"],
+        "properties": {
+          "name": { "type": "string" },
+          "start_gw": { "type": "integer" },
+          "end_gw": { "type": "integer" },
+          "gw_count": { "type": "integer" },
+          "completed": { "type": "boolean" },
+          "live": { "type": "boolean" },
+          "avg_rank": { "type": ["number", "null"] },
+          "best_rank": { "type": ["integer", "null"] },
+          "avg_score": { "type": ["number", "null"] },
+          "best_score": { "type": ["integer", "null"] },
+          "worst_score": { "type": ["integer", "null"] },
+          "total_score": { "type": ["integer", "null"] },
+          "rank_change": { "type": ["integer", "null"] },
+          "chips_used": { "type": "array", "items": { "enum": ["wildcard", "free_hit", "bench_boost", "triple_captain"] } },
+          "total_transfers": { "type": "integer" },
+          "total_transfers_cost": { "type": "number" }
+        }
+      }
+    },
+    "season_totals": {
+      "type": "object",
+      "required": ["total_points", "best_rank", "current_rank", "gw_played", "total_transfers", "total_transfers_cost"],
+      "properties": {
+        "total_points": { "type": ["integer", "null"] },
+        "best_rank": { "type": ["integer", "null"] },
+        "current_rank": { "type": ["integer", "null"] },
+        "gw_played": { "type": "integer" },
+        "total_transfers": { "type": "integer" },
+        "total_transfers_cost": { "type": "number" }
+      }
+    }
+  }
+}
