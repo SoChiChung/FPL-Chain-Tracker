@@ -1,0 +1,10 @@
+{
+  "name": "fpl-chain-tracker",
+  "version": "0.1.0",
+  "private": true,
+  "description": "FPL 接龙赛账号历史追踪（GitHub Pages 静态站点）",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  }
+}
