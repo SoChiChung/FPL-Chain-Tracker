@@ -111,7 +111,6 @@ def validate_gw_detail(gw: dict) -> list[str]:
             probs += [
                 _ok(isinstance(t.get("element_in"), int), f"gw{gw.get('gw')} transfers[{j}] element_in 类型非法"),
                 _ok(isinstance(t.get("element_out"), int), f"gw{gw.get('gw')} transfers[{j}] element_out 类型非法"),
-                _ok(isinstance(t.get("cost"), (int, float)), f"gw{gw.get('gw')} transfers[{j}] cost 类型非法"),
             ]
     chips = gw.get("chips")
     if chips is not None:

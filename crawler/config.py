@@ -24,6 +24,20 @@ CRAWL_DEFAULTS = {
     "user_agent": "Mozilla/5.0 (compatible; FPLChainTracker/1.0)",
 }
 
+# 赛事积分规则参数默认值（decide.md §7.2；config.json 的 rules 块可覆盖）
+RULES_DEFAULTS = {
+    "large_bgw_gws": [],
+    "chip_penalty": 1.5,
+    "hit_penalty_per_4": 0.5,
+    "avg_or_points": [20, 15, 12, 9, 7, 5, 3, 2, 1],
+    "weekly_or_tiers": [
+        {"max_rank": 10000, "points": 3},
+        {"max_rank": 100000, "points": 2},
+        {"max_rank": 200000, "points": 1},
+    ],
+    "transfer_pool": 4,
+}
+
 
 def check_config(cfg: dict) -> tuple[list[str], list[str]]:
     """返回 (errors, warnings)。errors 非空时采集不应继续。"""
@@ -115,6 +129,7 @@ def load_config(path: str | Path) -> dict:
         raise SystemExit(1)
 
     cfg["crawl"] = {**CRAWL_DEFAULTS, **(cfg.get("crawl") or {})}
+    cfg["rules"] = {**RULES_DEFAULTS, **(cfg.get("rules") or {})}
     errors, warnings = check_config(cfg)
     for w in warnings:
         print(f"[config] WARNING: {w}", file=sys.stderr)

@@ -138,6 +138,39 @@ git ls-files data/ | xargs git update-index --skip-worktree
 | `season` | 赛季标识，缺省时由 GW1 deadline 自动推导 |
 | `managers[]` | 接龙玩家；`start_gw`/`end_gw` 为接管区间（两两不重叠），`name` 必须与头像文件名一致 |
 | `crawl` | 采集行为参数，均有默认值 |
+| `rules` | 赛事积分规则参数（含大型 BGW 名单），详见下方「rules（赛事积分规则参数）」 |
+
+### rules（赛事积分规则参数）
+
+`rules` 块集中管理赛事积分规则参数，供积分计算读取。**大型 BGW 名单需人工维护**：
+
+| 字段 | 类型 | 说明 |
+|---|---|---|
+| `large_bgw_gws` | int 数组 | **大型 BGW 轮次编号**（缺赛球队 ≥5 的 Gameweek），按 FPL 官方赛程在每轮开赛前手动填入；无则 `[]` |
+| `chip_penalty` | number | 使用一张 Chip 扣减的赛事积分（默认 1.5） |
+| `hit_penalty_per_4` | number | 每 -4 分游戏内转会扣分对应的赛事积分扣分（默认 0.5） |
+| `avg_or_points` | int 数组 | 平均 OR 排名奖励分档，第 1~9 名依次对应 |
+| `weekly_or_tiers` | 对象数组 | 单周 OR 奖励分档；`max_rank` 为该档上限（含），`points` 为该档奖励，按 `max_rank` 升序排列 |
+| `transfer_pool` | number | 赛季末转会奖励奖池总分（默认 4） |
+
+**large_bgw_gws 填写示例**：
+
+```json
+"rules": {
+  "large_bgw_gws": [18, 29],
+  "chip_penalty": 1.5,
+  "hit_penalty_per_4": 0.5,
+  "avg_or_points": [20, 15, 12, 9, 7, 5, 3, 2, 1],
+  "weekly_or_tiers": [
+    { "max_rank": 10000,  "points": 3 },
+    { "max_rank": 100000, "points": 2 },
+    { "max_rank": 200000, "points": 1 }
+  ],
+  "transfer_pool": 4
+}
+```
+
+> 大型 BGW 判定依赖「缺赛球队数 ≥5」，现有 FPL API 无法自动获取，故由主办方依据官方赛程手动维护 `large_bgw_gws`。该名单用于判断「非大型 BGW 使用 Chip → 取消资格」。
 
 ## 头像规范
 
@@ -156,6 +189,21 @@ git ls-files data/ | xargs git update-index --skip-worktree
 | `stats.json` | 玩家统计 + 赛季汇总 | 统计卡片 |
 
 完整字段定义与 JSON Schema 见 [design.md](design.md) 第 8 章与 `schema/` 目录。
+
+## 本地开发与预览
+
+一条命令即可「抓取最新数据 → 启动本地预览服务器」：
+
+```bash
+npm run dev
+```
+
+`npm run dev` 依次执行：① 自动定位可用的 Python（优先已装 `tzdata` 的隔离环境）→ ② 运行 `crawler/run.py` 抓取最新 FPL 数据 → ③ 启动静态预览服务器（默认 http://localhost:8000/）。若抓取失败，服务器不会启动，旧数据保持不变。
+
+- 只想启动服务器、不重新抓取：`npm start`
+- 可选环境变量：
+  - `FPL_PYTHON`：手动指定 Python 解释器路径（默认自动探测）
+  - `PORT`：覆盖预览端口（默认 8000）
 
 ## 前端开发指引
 

@@ -14,13 +14,12 @@
       "type": ["array", "null"],
       "items": {
         "type": "object",
-        "required": ["element_in", "element_in_name", "element_out", "element_out_name", "cost", "gw", "time_utc"],
+        "required": ["element_in", "element_in_name", "element_out", "element_out_name", "gw", "time_utc"],
         "properties": {
           "element_in": { "type": "integer" },
           "element_in_name": { "type": "string" },
           "element_out": { "type": "integer" },
           "element_out_name": { "type": "string" },
-          "cost": { "type": "number" },
           "gw": { "type": "integer" },
           "time_utc": { "type": "string" }
         }
@@ -69,7 +68,8 @@
         "is_captain": { "type": "boolean" },
         "is_vice_captain": { "type": "boolean" },
         "multiplier": { "type": "integer" },
-        "is_substitute": { "type": "boolean" }
+        "is_substitute": { "type": "boolean" },
+        "points": { "type": ["integer", "null"] }
       }
     }
   }

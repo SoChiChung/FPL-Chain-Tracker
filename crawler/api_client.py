@@ -98,3 +98,6 @@ class ApiClient:
 
     def picks(self, team_id: int, gw: int) -> dict:
         return self._get(f"entry/{team_id}/event/{gw}/picks/")
+
+    def event_live(self, gw: int) -> dict:
+        return self._get(f"event/{gw}/live/")

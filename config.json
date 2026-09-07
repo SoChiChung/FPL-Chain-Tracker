@@ -18,5 +18,17 @@
     "max_retries": 3,
     "request_timeout_seconds": 10,
     "seal_after_hours": 48
+  },
+  "rules": {
+    "large_bgw_gws": [],
+    "chip_penalty": 1.5,
+    "hit_penalty_per_4": 0.5,
+    "avg_or_points": [20, 15, 12, 9, 7, 5, 3, 2, 1],
+    "weekly_or_tiers": [
+      { "max_rank": 10000, "points": 3 },
+      { "max_rank": 100000, "points": 2 },
+      { "max_rank": 200000, "points": 1 }
+    ],
+    "transfer_pool": 4
   }
 }

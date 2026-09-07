@@ -335,6 +335,14 @@
     }
     .player-name { color: var(--fg); font-weight: 500; }
     .player-team { color: var(--muted); font-size: 12px; letter-spacing: 0.04em; }
+    .player-pts {
+      color: var(--gold);
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      min-width: 18px;
+      text-align: center;
+    }
+    .player-pts-sub { color: var(--muted); font-weight: 500; }
     .tag {
       display: inline-grid;
       place-items: center;
@@ -489,6 +497,23 @@
     .lb-detail-row:last-child { border-bottom: 0; }
     .lb-detail-row span:first-child { color: var(--muted); }
     .lb-detail-row span:last-child { color: var(--fg); font-variant-numeric: tabular-nums; font-weight: 550; }
+    /* 积分榜：资格/暂定徽标 + 积分明细配色 */
+    .lb-row-dq { opacity: 0.55; }
+    .lb-rank-dq { color: var(--muted); }
+    .lb-score-dq { color: var(--muted); text-decoration: line-through; }
+    .badge-dq {
+      background: rgba(224, 108, 95, 0.14);
+      color: #e8a096;
+      border: 1px solid rgba(224, 108, 95, 0.32);
+    }
+    .badge-tbd {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--muted);
+      border: 1px solid var(--line);
+    }
+    .lb-detail-row .lb-val-reward { color: #7ecb8f; font-weight: 600; }
+    .lb-detail-row .lb-val-penalty { color: #e8a096; font-weight: 600; }
+    .lb-detail-row .lb-val-pending { color: var(--muted); }
     .site-footer {
       padding: 22px 20px 38px;
       text-align: center;

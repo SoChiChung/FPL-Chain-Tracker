@@ -17,7 +17,7 @@ from pathlib import Path
 from api_client import ApiClient, ApiError
 from config import load_config
 from enrich import build_maps, enrich_pick
-from stats import compute_manager_stats, compute_season_totals
+from stats import compute_manager_stats, compute_season_totals, compute_scores
 from timeutil import deadline_fields, derive_season, parse_utc, to_ms, utc_now, format_utc
 from validate import validate_all, ValidationError
 
@@ -84,7 +84,6 @@ def build_transfer_entries(trs: list[dict], players: dict[int, dict]) -> list[di
             "element_in_name": players.get(t.get("element_in"), {}).get("name"),
             "element_out": t.get("element_out"),
             "element_out_name": players.get(t.get("element_out"), {}).get("name"),
-            "cost": t.get("cost"),
             "gw": t.get("event"),
             "time_utc": t.get("time"),
         })
@@ -152,11 +151,29 @@ def main(argv: list[str] | None = None) -> int:
             picks_set = set()
         else:
             picks_set = set(range(started_event, current_gw_id + 1))
+    else:
+        # live/finished → sealed 过渡：重抓一次，获取自动换人（automatic_subs）后的最终阵容
+        for eid, st in statuses.items():
+            if st != "sealed":
+                continue
+            old = read_json(DATA_DIR / f"gw-{eid:02d}.json")
+            if not isinstance(old, dict):
+                continue
+            old_status = (old.get("summary") or {}).get("status")
+            if old_status in ("live", "finished"):
+                picks_set.add(eid)
+                print(f"[run] gw{eid} 由 {old_status} 过渡为 sealed，重抓最终阵容")
 
-    # ---- 抓取 picks（增量集合，§10.3）----
+    # ---- 抓取 picks + 球员得分（§10.3；live 接口提供每轮球员得分）----
     picks_data: dict[int, dict] = {}
+    live_points: dict[int, dict[int, int]] = {}
     for gw in sorted(picks_set):
         picks_data[gw] = client.picks(team_id, gw)
+        live = client.event_live(gw)
+        live_points[gw] = {
+            e.get("id"): (e.get("stats") or {}).get("total_points")
+            for e in (live.get("elements") or [])
+        }
 
     # ---- history（§5.2：chips 赛季权威源，overall_rank 缺失回退 rank）----
     hist_by_gw: dict[int, dict] = {}
@@ -167,6 +184,7 @@ def main(argv: list[str] | None = None) -> int:
             "total_points": h.get("total_points"),
             "overall_rank": h.get("overall_rank") if h.get("overall_rank") is not None else h.get("rank"),
             "gw_rank": h.get("rank"),
+            "event_transfers_cost": h.get("event_transfers_cost"),
         }
     chips_by_gw: dict[int, str] = {}
     for c in history.get("chips") or []:
@@ -204,7 +222,10 @@ def main(argv: list[str] | None = None) -> int:
         status = statuses[gw]
         manager = manager_for(gw)
         hist = hist_by_gw.get(gw, {})
-        has_detail = gw in picks_set
+        # has_picks：本轮是否重抓 picks（决定是否重写详情文件）
+        # has_detail：是否有详情可展示（本轮抓取，或历史详情文件已存在）
+        has_picks = gw in picks_set
+        has_detail = has_picks or file_exists(gw)
         chips_picks = None
         if gw in picks_data:
             active = picks_data[gw].get("active_chip")
@@ -218,7 +239,6 @@ def main(argv: list[str] | None = None) -> int:
                 chips_list = [chips_picks]
             else:
                 chips_list = [chips_picks or chips_hist]
-        trs = transfers_by_gw.get(gw, []) if has_detail else []
         gw_list.append({
             "gw": gw,
             "status": status,
@@ -229,8 +249,8 @@ def main(argv: list[str] | None = None) -> int:
             "overall_rank": hist.get("overall_rank"),
             "gw_rank": hist.get("gw_rank"),
             "chips": chips_list if status != "upcoming" else None,
-            "transfers_count": len(trs) if has_detail else 0,
-            "transfers_cost": round(sum(t.get("cost") or 0 for t in trs), 1) if has_detail else 0,
+            "transfers_count": len(transfers_by_gw.get(gw, [])),
+            "transfers_cost": hist.get("event_transfers_cost") or 0,
             "has_detail": has_detail,
         })
 
@@ -239,8 +259,10 @@ def main(argv: list[str] | None = None) -> int:
     for gw in sorted(picks_set):
         raw_picks = sorted(picks_data[gw].get("picks") or [], key=lambda p: p.get("position", 99))
         starters, subs = [], []
+        pts_map = live_points.get(gw, {})
         for p in raw_picks:
             item = enrich_pick(p, players)
+            item["points"] = pts_map.get(p.get("element"))
             (subs if item["is_substitute"] else starters).append(item)
         summary = next(g for g in gw_list if g["gw"] == gw)
         gw_details[gw] = {
@@ -279,6 +301,9 @@ def main(argv: list[str] | None = None) -> int:
         })
 
     stats_managers = compute_manager_stats(managers, gw_list)
+    stats_managers, season_settled = compute_scores(
+        stats_managers, gw_list, cfg.get("rules") or {}
+    )
     season_totals = compute_season_totals(gw_list)
 
     # ---- 内容文件（§8.2/§8.3/§8.4）----
@@ -292,6 +317,7 @@ def main(argv: list[str] | None = None) -> int:
         "season": season,
         "data_version": 0,
         "updated_at_utc": "",
+        "season_settled": season_settled,
         "managers": stats_managers,
         "season_totals": season_totals,
     }

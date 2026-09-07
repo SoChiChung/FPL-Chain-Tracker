@@ -200,10 +200,14 @@ function playerHtml(p) {
     : p.is_vice_captain
       ? '<span class="tag tag-vc" title="副队长">V</span>'
       : '';
+  const pts = (p.points !== null && p.points !== undefined)
+    ? `<span class="player-pts${p.is_substitute ? ' player-pts-sub' : ''}">${p.points}</span>`
+    : '';
   return `<div class="player">
     <span class="player-name">${esc(p.name || '?')}</span>
     <span class="player-team">${esc(p.team || '')}</span>
     ${badge}
+    ${pts}
   </div>`;
 }
 
@@ -219,7 +223,6 @@ function transfersHtml(transfers) {
       <span class="transfer-out">${esc(t.element_out_name || '#' + t.element_out)}</span>
       <span class="transfer-arrow">→</span>
       <span class="transfer-in">${esc(t.element_in_name || '#' + t.element_in)}</span>
-      <span class="transfer-cost">${t.cost != null ? t.cost : ''}</span>
     </div>`).join('');
   return sectionHtml(`转会（${transfers.length} 笔）`, rows);
 }
@@ -255,8 +258,13 @@ function normalizePlayers(stats) {
   const list = (stats.managers || []).map(m => ({
     name: m.name,
     avatar: (byName.get(m.name) || {}).avatar || null,
-    score: null,
-    hasScore: false,
+    score: m.score,
+    rank: m.rank,
+    hasScore: m.score !== null && m.score !== undefined,
+    settled: m.settled,
+    disqualified: m.disqualified,
+    disqualify_reason: m.disqualify_reason,
+    score_details: m.score_details,
     awards: [],
     range: m,
     stats: m,
@@ -274,12 +282,19 @@ function renderLeaderboard() {
   const players = normalizePlayers(state.stats);
   const hasScore = players.some(p => p.hasScore);
   if (hasScore) {
-    players.sort((a, b) => (b.score || 0) - (a.score || 0));
+    // 取消资格者置后；其余按积分降序
+    players.sort((a, b) => {
+      if (!!a.disqualified !== !!b.disqualified) return a.disqualified ? 1 : -1;
+      return (b.score || 0) - (a.score || 0);
+    });
   }
+  const seasonSettled = !!state.stats.season_settled;
   el.innerHTML = `
     <div class="lb-header">
       <h2>玩家积分榜</h2>
-      ${hasScore ? '' : '<span class="lb-hint">积分规则开发中，当前展示玩家接管数据</span>'}
+      ${hasScore && !seasonSettled
+        ? '<span class="lb-hint">赛季进行中，平均 OR 与转会奖励待结算</span>'
+        : (hasScore ? '' : '<span class="lb-hint">暂无积分数据</span>')}
     </div>
     <div class="lb-table">
       ${players.map((p, i) => leaderboardRowHtml(p, i + 1, hasScore)).join('')}
@@ -287,21 +302,30 @@ function renderLeaderboard() {
 }
 
 function leaderboardRowHtml(p, fallbackRank, hasScore) {
-  const rank = p.rank !== null && p.rank !== undefined ? p.rank : fallbackRank;
+  const rankHtml = p.disqualified
+    ? '<span class="lb-rank lb-rank-dq">—</span>'
+    : `<span class="lb-rank">${p.rank !== null && p.rank !== undefined ? p.rank : fallbackRank}</span>`;
   const scoreHtml = hasScore
-    ? `<span class="lb-score">${num(p.score)}</span>`
+    ? `<span class="lb-score${p.disqualified ? ' lb-score-dq' : ''}">${num(p.score)}</span>`
     : '<span class="lb-score lb-score-tbd">待定</span>';
+  const badges = [];
+  if (p.disqualified) {
+    badges.push(`<span class="badge badge-dq" title="${esc(p.disqualify_reason || '')}">取消资格</span>`);
+  } else if (hasScore && p.settled === false) {
+    badges.push('<span class="badge badge-tbd">暂定</span>');
+  }
   const awards = (p.awards && p.awards.length)
     ? `<div class="lb-awards-line">${p.awards.map(a =>
         `<span class="award-badge">${esc(a)}</span>`).join('')}</div>`
     : '';
   return `
-    <div class="lb-row" data-name="${esc(p.name)}">
+    <div class="lb-row${p.disqualified ? ' lb-row-dq' : ''}" data-name="${esc(p.name)}">
       <div class="lb-row-main">
-        <span class="lb-rank">${rank}</span>
+        ${rankHtml}
         ${avatarHtml(p.avatar, p.name, 'avatar avatar-sm')}
         <span class="lb-name">${esc(p.name)}</span>
         ${scoreHtml}
+        ${badges.join('')}
         <span class="lb-toggle">▸</span>
       </div>
       ${awards}
@@ -317,7 +341,7 @@ function playerDetailHtml(p) {
   }
   if (Array.isArray(p.score_details)) {
     p.score_details.forEach(d => {
-      rows.push(`<div class="lb-detail-row"><span>${esc(d.label)}</span><span>${num(d.value)}</span></div>`);
+      rows.push(`<div class="lb-detail-row"><span>${esc(d.label)}</span><span class="lb-val lb-val-${esc(d.kind || '')}">${esc(num(d.value))}</span></div>`);
     });
   }
   const s = p.stats || {};

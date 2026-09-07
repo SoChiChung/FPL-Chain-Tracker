@@ -5,6 +5,6 @@
   "description": "FPL 接龙赛账号历史追踪（GitHub Pages 静态站点）",
   "scripts": {
     "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "node dev.js"
   }
 }
