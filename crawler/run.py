@@ -350,6 +350,7 @@ def main(argv: list[str] | None = None) -> int:
 
     meta = {
         "season": season,
+        "timezone": tz,
         "team": {
             "id": team_id,
             "name": entry.get("name"),
@@ -371,6 +372,9 @@ def main(argv: list[str] | None = None) -> int:
             }
             for m in managers
         ],
+        # 以下三项供实时数据层（api/fpl-live.js）复用同一份配置，避免两套口径分叉
+        "rules": cfg.get("rules") or {},
+        "seal_after_hours": seal_hours,
         "data_version": data_version,
         "generated_at_utc": format_utc(now),
         "server_timestamp": to_ms(now),

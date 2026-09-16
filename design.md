@@ -1075,6 +1075,107 @@ FPL 在 GW 结算后存在补分窗口（bonus 调整等），`finished` 翻绿�
 
 ---
 
+## 16. 实时数据层（增量补充）
+
+> 版本：v1.1 ｜ 日期：2026-09-16 ｜ 状态：已实现
+> 本章是 design.md 的增量：不改动第 1-15 章的任何既有约定，只新增一条「在线」数据通道。
+> 动机：静态托管下，数据新鲜度受限于 Actions 调度粒度；而 §10.2 的「只有 live GW 才需要抓取」这一口径，
+> 天然适合做成「按需实时读取」。
+
+### 16.1 硬约束：官方 API 不支持浏览器直连
+
+实测 `GET https://fantasy.premierleague.com/api/entry/{id}/` 与 `/bootstrap-static/`：
+
+| 观测项 | 结果 |
+|---|---|
+| 响应头 `Access-Control-Allow-Origin` | **不存在** |
+| 响应头 `Vary` | `X-API-Language, Accept-Encoding`（不含 `Origin`，非条件性 CORS） |
+| 响应头 `Cache-Control` | `max-age=0, no-cache, no-store, must-revalidate` |
+
+结论：**浏览器无法直接读取 FPL 官方 API**。任何「前端自行刷新」的方案都必须经由服务端代理，
+因此本层引入了唯一一个服务端组件（Vercel 无服务器函数）。
+
+### 16.2 架构
+
+```
+浏览器 ──► GET /api/fpl-live?file=<name> ──► api/fpl-live.js
+                                                 │ 读 data/*.json（已冻结历史基线）
+                                                 │ 代抓 FPL 官方 API（服务端，无 CORS 限制）
+                                                 ▼
+                                            lib/fpl-core.js
+                                      状态机 / 丰富 / 接龙统计 / 赛事积分
+浏览器 ◄──── 与 data/*.json 同构的 JSON ◄────────┘
+```
+
+- `lib/fpl-core.js`：零依赖 Node 模块，是 `crawler/*.py` 的**同源 JS 实现**（判定与计算口径一致）
+- `api/fpl-live.js`：纯 Node 请求处理器，只用内置模块，便于本地直接起 http server 验证
+- 静态托管不可用（GitHub Pages）时，前端回落 `data/*.json`，功能不降级，仅新鲜度降低
+
+**与既有原则的关系**：本层不改变「数据文件即数据库」——它输出的仍是同一套 JSON 契约（§8），
+只是其中「未冻结部分」改为按需重算。已冻结（`sealed`）的轮次一律以仓库中的 `data/` 为权威，不重算。
+
+### 16.3 接口契约
+
+| 项 | 约定 |
+|---|---|
+| 路径 | `/api/fpl-live` |
+| 参数 | `file`（`meta.json` / `summary.json` / `stats.json` / `gw-NN.json`，缺省 `meta.json`）；`refresh=1` 绕开函数内缓存（调试用） |
+| 方法 | `GET` / `HEAD` / `OPTIONS`（其余 405） |
+| 响应体 | 与 `data/<name>` **完全同构** |
+| 响应头 | `X-FPL-Source`（`live` / `base` / `base-fallback`）、`X-FPL-Phase`、`X-FPL-Refreshed`、`X-FPL-Data-Version`、`X-FPL-Generated-At`、`Access-Control-Allow-Origin: *` |
+| 错误 | 非法 `file` → 400；无该文件且无基线 → 404（附失败原因） |
+
+请求集合（§10.3 的增量版）：只抓 `live` / `finished` 的轮次，以及「刚由 live/finished 转为 sealed」需补抓最终阵容的轮次；
+`idle` 阶段只请求 `bootstrap-static` / `entry` / `history` / `transfers` 四个基础接口，**不抓 picks**。
+
+### 16.4 缓存策略
+
+判定集中在 `determinePhase(statuses)`：
+
+| 阶段 | 判定条件 | 函数侧缓存 | 前端轮询 | 上游抓取 |
+|---|---|---|---|---|
+| `live` | 存在 `deadline ≤ now` 且 `finished == false` 的 GW | 30s | 60s | 抓 picks + live |
+| `settling` | 最近的 GW `finished`，未进入 `sealed`（封印窗口内） | 120s | 300s | 抓 picks + live |
+| `idle` | 季前（无 GW 开始）／上一 GW 已 `sealed` 且下一 GW `upcoming`／赛季结束 | 1800s | 不轮询 | 仅 4 个基础接口 |
+
+即：**只有存在「正在进行中的 GW」时才必须放弃缓存**；GW 未开始、或上一 GW 已结束的阶段可直接使用缓存（§10.2 的同一口径）。
+`settling` 之所以保留低频刷新，是因为 §9.4 的补分窗口（bonus 调整）会让已结算分数继续微调。
+
+前端额外约束：每轮只轮询 `summary.json`，用关键字段指纹决定是否重绘；后台标签页不抓取，`visibilitychange` 回前台立即补一次。
+
+### 16.5 与 Python 实现的一致性是硬要求
+
+两套实现（Python / JS）必须给出相同结果，否则「线上实时」与「仓库快照」会互相矛盾。
+一致性由 `npm run verify` 的差分校验保证：以 `crawler` 的产出为基准，逐字段比对
+`summary.json` / `stats.json` / `meta.json`，并要求零差异。
+
+> 注意：GW 从 `finished` 过渡到 `sealed` 后，`sealed_eligible` 条件才成立，
+> 需要再跑一次采集让 Python 侧的状态落定，差分校验才有意义（脚本输出里会打印当前阶段与抓取轮次）。
+
+### 16.6 meta.json 新增字段（§8.1 的增量）
+
+| 字段 | 类型 | 说明 |
+|---|---|---|
+| `timezone` | string | IANA 时区名，实时层做 deadline 换算用 |
+| `rules` | object | 赛事积分规则（原仅存在于 `config.json`，§6）；实时层需要它才能独立算分 |
+| `seal_after_hours` | number | 封印宽限期，与 `crawl.seal_after_hours` 同值 |
+
+依据 §8.5「只增不改」，前端对未知字段不做断言；`schema/meta.schema.json` 已同步。
+
+### 16.7 部署与回落
+
+- **Vercel**：函数自动挂在 `/api/fpl-live`；`vercel.json` 声明 `includeFiles: data/**` 让函数能读到基线快照
+- **GitHub Pages**：`/api/fpl-live` 返回 404，前端据此**永久**回落静态快照（不再重试该接口）
+- **上游抖动**：函数返回基线快照并在 `X-FPL-Source` 标注 `base-fallback`；前端视为静态来源，不会白屏
+- **首次部署**：仓库必须包含基线 `data/meta.json` + `data/summary.json`，否则实时层无起点（见 README 部署章节）
+
+### 16.8 不改动清单
+
+`crawler/` 的采集与校验逻辑、`index.html` 结构、第 8 章的 JSON 契约、第 9 章状态机、第 10 章更新策略、
+第 11 章统计与积分口径、第 12 章前端契约 —— **均无改动**。本层只在既有链路上增加一条可按需调用的数据通道。
+
+---
+
 ## 附录 A：开发实施顺序（建议里程碑）
 
 1. **M1 骨架**：目录结构、config.json（含 9 位玩家占位）、头像目录与 default.png、`.nojekyll`

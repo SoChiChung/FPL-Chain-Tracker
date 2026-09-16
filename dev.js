@@ -1,6 +1,10 @@
-/* npm run dev：先抓取最新 FPL 数据，成功后再启动本地预览服务器。
+/* 先抓取最新 FPL 数据，成功后再启动本地预览服务器。
  *
- * 用法：npm run dev
+ * 用法：
+ *   npm start        （= 本脚本）抓取最新数据 → 启动静态预览
+ *   npm run dev      同上（保留的别名）
+ *   npm run live     不抓数据，但挂载实时接口，预览线上 Vercel 的行为
+ *   npm run serve    只启动静态服务器，不抓数据
  *
  * 可选环境变量：
  *   FPL_PYTHON  指定 Python 解释器路径（默认自动探测，优先已装 tzdata 的隔离环境）
@@ -69,4 +73,4 @@ if (crawl.status !== 0) {
 }
 
 console.log('[dev] 数据已更新，启动预览服务器...');
-require('./server.js');
+require('./server.js').startStaticServer();

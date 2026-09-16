@@ -1,0 +1,466 @@
+{
+  "season": "2026-27",
+  "timezone": "Asia/Shanghai",
+  "team": {
+    "id": 7557100,
+    "name": "我们是FPL的接龙高手！",
+    "player_first_name": "WUDI",
+    "player_last_name": "WUDI",
+    "started_event": 1,
+    "current_event": 4
+  },
+  "current_gw": {
+    "id": 4,
+    "status": "live"
+  },
+  "next_deadline": {
+    "gw": 5,
+    "deadline_utc": "2026-09-18T17:30:00Z",
+    "deadline_beijing": "2026-09-19T01:30:00+08:00",
+    "deadline_timestamp": 1789752600000
+  },
+  "events": [
+    {
+      "id": 1,
+      "name": "Gameweek 1",
+      "deadline_utc": "2026-08-21T17:30:00Z",
+      "deadline_beijing": "2026-08-22T01:30:00+08:00",
+      "deadline_timestamp": 1787333400000,
+      "finished": true,
+      "status": "sealed"
+    },
+    {
+      "id": 2,
+      "name": "Gameweek 2",
+      "deadline_utc": "2026-08-28T17:30:00Z",
+      "deadline_beijing": "2026-08-29T01:30:00+08:00",
+      "deadline_timestamp": 1787938200000,
+      "finished": true,
+      "status": "sealed"
+    },
+    {
+      "id": 3,
+      "name": "Gameweek 3",
+      "deadline_utc": "2026-09-04T17:30:00Z",
+      "deadline_beijing": "2026-09-05T01:30:00+08:00",
+      "deadline_timestamp": 1788543000000,
+      "finished": true,
+      "status": "sealed"
+    },
+    {
+      "id": 4,
+      "name": "Gameweek 4",
+      "deadline_utc": "2026-09-12T12:30:00Z",
+      "deadline_beijing": "2026-09-12T20:30:00+08:00",
+      "deadline_timestamp": 1789216200000,
+      "finished": true,
+      "status": "sealed"
+    },
+    {
+      "id": 5,
+      "name": "Gameweek 5",
+      "deadline_utc": "2026-09-18T17:30:00Z",
+      "deadline_beijing": "2026-09-19T01:30:00+08:00",
+      "deadline_timestamp": 1789752600000,
+      "finished": false,
+      "status": "upcoming"
+    },
+    {
+      "id": 6,
+      "name": "Gameweek 6",
+      "deadline_utc": "2026-10-10T10:00:00Z",
+      "deadline_beijing": "2026-10-10T18:00:00+08:00",
+      "deadline_timestamp": 1791626400000,
+      "finished": false,
+      "status": "upcoming"
+    },
+    {
+      "id": 7,
+      "name": "Gameweek 7",
+      "deadline_utc": "2026-10-17T10:00:00Z",
+      "deadline_beijing": "2026-10-17T18:00:00+08:00",
+      "deadline_timestamp": 1792231200000,
+      "finished": false,
+      "status": "upcoming"
+    },
+    {
+      "id": 8,
+      "name": "Gameweek 8",
+      "deadline_utc": "2026-10-23T17:30:00Z",
+      "deadline_beijing": "2026-10-24T01:30:00+08:00",
+      "deadline_timestamp": 1792776600000,
+      "finished": false,
+      "status": "upcoming"
+    },
+    {
+      "id": 9,
+      "name": "Gameweek 9",
+      "deadline_utc": "2026-10-31T11:00:00Z",
+      "deadline_beijing": "2026-10-31T19:00:00+08:00",
+      "deadline_timestamp": 1793444400000,
+      "finished": false,
+      "status": "upcoming"
+    },
+    {
+      "id": 10,
+      "name": "Gameweek 10",
+      "deadline_utc": "2026-11-07T13:30:00Z",
+      "deadline_beijing": "2026-11-07T21:30:00+08:00",
+      "deadline_timestamp": 1794058200000,
+      "finished": false,
+      "status": "upcoming"
+    },
+    {
+      "id": 11,
+      "name": "Gameweek 11",
+      "deadline_utc": "2026-11-21T13:30:00Z",
+      "deadline_beijing": "2026-11-21T21:30:00+08:00",
+      "deadline_timestamp": 1795267800000,
+      "finished": false,
+      "status": "upcoming"
+    },
+    {
+      "id": 12,
+      "name": "Gameweek 12",
+      "deadline_utc": "2026-11-28T13:30:00Z",
+      "deadline_beijing": "2026-11-28T21:30:00+08:00",
+      "deadline_timestamp": 1795872600000,
+      "finished": false,
+      "status": "upcoming"
+    },
+    {
+      "id": 13,
+      "name": "Gameweek 13",
+      "deadline_utc": "2026-12-02T18:30:00Z",
+      "deadline_beijing": "2026-12-03T02:30:00+08:00",
+      "deadline_timestamp": 1796236200000,
+      "finished": false,
+      "status": "upcoming"
+    },
+    {
+      "id": 14,
+      "name": "Gameweek 14",
+      "deadline_utc": "2026-12-05T13:30:00Z",
+      "deadline_beijing": "2026-12-05T21:30:00+08:00",
+      "deadline_timestamp": 1796477400000,
+      "finished": false,
+      "status": "upcoming"
+    },
+    {
+      "id": 15,
+      "name": "Gameweek 15",
+      "deadline_utc": "2026-12-12T13:30:00Z",
+      "deadline_beijing": "2026-12-12T21:30:00+08:00",
+      "deadline_timestamp": 1797082200000,
+      "finished": false,
+      "status": "upcoming"
+    },
+    {
+      "id": 16,
+      "name": "Gameweek 16",
+      "deadline_utc": "2026-12-19T13:30:00Z",
+      "deadline_beijing": "2026-12-19T21:30:00+08:00",
+      "deadline_timestamp": 1797687000000,
+      "finished": false,
+      "status": "upcoming"
+    },
+    {
+      "id": 17,
+      "name": "Gameweek 17",
+      "deadline_utc": "2026-12-26T11:00:00Z",
+      "deadline_beijing": "2026-12-26T19:00:00+08:00",
+      "deadline_timestamp": 1798282800000,
+      "finished": false,
+      "status": "upcoming"
+    },
+    {
+      "id": 18,
+      "name": "Gameweek 18",
+      "deadline_utc": "2026-12-29T18:00:00Z",
+      "deadline_beijing": "2026-12-30T02:00:00+08:00",
+      "deadline_timestamp": 1798567200000,
+      "finished": false,
+      "status": "upcoming"
+    },
+    {
+      "id": 19,
+      "name": "Gameweek 19",
+      "deadline_utc": "2027-01-01T18:30:00Z",
+      "deadline_beijing": "2027-01-02T02:30:00+08:00",
+      "deadline_timestamp": 1798828200000,
+      "finished": false,
+      "status": "upcoming"
+    },
+    {
+      "id": 20,
+      "name": "Gameweek 20",
+      "deadline_utc": "2027-01-05T18:00:00Z",
+      "deadline_beijing": "2027-01-06T02:00:00+08:00",
+      "deadline_timestamp": 1799172000000,
+      "finished": false,
+      "status": "upcoming"
+    },
+    {
+      "id": 21,
+      "name": "Gameweek 21",
+      "deadline_utc": "2027-01-16T13:30:00Z",
+      "deadline_beijing": "2027-01-16T21:30:00+08:00",
+      "deadline_timestamp": 1800106200000,
+      "finished": false,
+      "status": "upcoming"
+    },
+    {
+      "id": 22,
+      "name": "Gameweek 22",
+      "deadline_utc": "2027-01-23T13:30:00Z",
+      "deadline_beijing": "2027-01-23T21:30:00+08:00",
+      "deadline_timestamp": 1800711000000,
+      "finished": false,
+      "status": "upcoming"
+    },
+    {
+      "id": 23,
+      "name": "Gameweek 23",
+      "deadline_utc": "2027-01-30T13:30:00Z",
+      "deadline_beijing": "2027-01-30T21:30:00+08:00",
+      "deadline_timestamp": 1801315800000,
+      "finished": false,
+      "status": "upcoming"
+    },
+    {
+      "id": 24,
+      "name": "Gameweek 24",
+      "deadline_utc": "2027-02-06T13:30:00Z",
+      "deadline_beijing": "2027-02-06T21:30:00+08:00",
+      "deadline_timestamp": 1801920600000,
+      "finished": false,
+      "status": "upcoming"
+    },
+    {
+      "id": 25,
+      "name": "Gameweek 25",
+      "deadline_utc": "2027-02-10T18:30:00Z",
+      "deadline_beijing": "2027-02-11T02:30:00+08:00",
+      "deadline_timestamp": 1802284200000,
+      "finished": false,
+      "status": "upcoming"
+    },
+    {
+      "id": 26,
+      "name": "Gameweek 26",
+      "deadline_utc": "2027-02-20T13:30:00Z",
+      "deadline_beijing": "2027-02-20T21:30:00+08:00",
+      "deadline_timestamp": 1803130200000,
+      "finished": false,
+      "status": "upcoming"
+    },
+    {
+      "id": 27,
+      "name": "Gameweek 27",
+      "deadline_utc": "2027-02-27T13:30:00Z",
+      "deadline_beijing": "2027-02-27T21:30:00+08:00",
+      "deadline_timestamp": 1803735000000,
+      "finished": false,
+      "status": "upcoming"
+    },
+    {
+      "id": 28,
+      "name": "Gameweek 28",
+      "deadline_utc": "2027-03-03T18:30:00Z",
+      "deadline_beijing": "2027-03-04T02:30:00+08:00",
+      "deadline_timestamp": 1804098600000,
+      "finished": false,
+      "status": "upcoming"
+    },
+    {
+      "id": 29,
+      "name": "Gameweek 29",
+      "deadline_utc": "2027-03-13T13:30:00Z",
+      "deadline_beijing": "2027-03-13T21:30:00+08:00",
+      "deadline_timestamp": 1804944600000,
+      "finished": false,
+      "status": "upcoming"
+    },
+    {
+      "id": 30,
+      "name": "Gameweek 30",
+      "deadline_utc": "2027-03-20T13:30:00Z",
+      "deadline_beijing": "2027-03-20T21:30:00+08:00",
+      "deadline_timestamp": 1805549400000,
+      "finished": false,
+      "status": "upcoming"
+    },
+    {
+      "id": 31,
+      "name": "Gameweek 31",
+      "deadline_utc": "2027-04-10T12:30:00Z",
+      "deadline_beijing": "2027-04-10T20:30:00+08:00",
+      "deadline_timestamp": 1807360200000,
+      "finished": false,
+      "status": "upcoming"
+    },
+    {
+      "id": 32,
+      "name": "Gameweek 32",
+      "deadline_utc": "2027-04-17T12:30:00Z",
+      "deadline_beijing": "2027-04-17T20:30:00+08:00",
+      "deadline_timestamp": 1807965000000,
+      "finished": false,
+      "status": "upcoming"
+    },
+    {
+      "id": 33,
+      "name": "Gameweek 33",
+      "deadline_utc": "2027-04-24T12:30:00Z",
+      "deadline_beijing": "2027-04-24T20:30:00+08:00",
+      "deadline_timestamp": 1808569800000,
+      "finished": false,
+      "status": "upcoming"
+    },
+    {
+      "id": 34,
+      "name": "Gameweek 34",
+      "deadline_utc": "2027-05-01T12:30:00Z",
+      "deadline_beijing": "2027-05-01T20:30:00+08:00",
+      "deadline_timestamp": 1809174600000,
+      "finished": false,
+      "status": "upcoming"
+    },
+    {
+      "id": 35,
+      "name": "Gameweek 35",
+      "deadline_utc": "2027-05-08T12:30:00Z",
+      "deadline_beijing": "2027-05-08T20:30:00+08:00",
+      "deadline_timestamp": 1809779400000,
+      "finished": false,
+      "status": "upcoming"
+    },
+    {
+      "id": 36,
+      "name": "Gameweek 36",
+      "deadline_utc": "2027-05-15T12:30:00Z",
+      "deadline_beijing": "2027-05-15T20:30:00+08:00",
+      "deadline_timestamp": 1810384200000,
+      "finished": false,
+      "status": "upcoming"
+    },
+    {
+      "id": 37,
+      "name": "Gameweek 37",
+      "deadline_utc": "2027-05-23T12:30:00Z",
+      "deadline_beijing": "2027-05-23T20:30:00+08:00",
+      "deadline_timestamp": 1811075400000,
+      "finished": false,
+      "status": "upcoming"
+    },
+    {
+      "id": 38,
+      "name": "Gameweek 38",
+      "deadline_utc": "2027-05-30T13:30:00Z",
+      "deadline_beijing": "2027-05-30T21:30:00+08:00",
+      "deadline_timestamp": 1811683800000,
+      "finished": false,
+      "status": "upcoming"
+    }
+  ],
+  "managers": [
+    {
+      "name": "Fran",
+      "start_gw": 3,
+      "end_gw": 6,
+      "avatar": "assets/avatar/Fran.jpg",
+      "active": true
+    },
+    {
+      "name": "remember",
+      "start_gw": 7,
+      "end_gw": 10,
+      "avatar": "assets/avatar/remember.jpg",
+      "active": false
+    },
+    {
+      "name": "欧巡",
+      "start_gw": 11,
+      "end_gw": 14,
+      "avatar": "assets/avatar/ocean.jpg",
+      "active": false
+    },
+    {
+      "name": "中国合伙人",
+      "start_gw": 15,
+      "end_gw": 18,
+      "avatar": "assets/avatar/gsg.jpg",
+      "active": false
+    },
+    {
+      "name": "进藤光",
+      "start_gw": 19,
+      "end_gw": 22,
+      "avatar": "assets/avatar/jtg.jpg",
+      "active": false
+    },
+    {
+      "name": "香克利",
+      "start_gw": 23,
+      "end_gw": 26,
+      "avatar": "assets/avatar/shankly.jpg",
+      "active": false
+    },
+    {
+      "name": "紫葱酱",
+      "start_gw": 27,
+      "end_gw": 30,
+      "avatar": "assets/avatar/zcj.jpg",
+      "active": false
+    },
+    {
+      "name": "面条",
+      "start_gw": 31,
+      "end_gw": 34,
+      "avatar": "assets/avatar/miantiao.jpg",
+      "active": false
+    },
+    {
+      "name": "企鹅",
+      "start_gw": 35,
+      "end_gw": 38,
+      "avatar": "assets/avatar/penguin.jpg",
+      "active": false
+    }
+  ],
+  "rules": {
+    "large_bgw_gws": [],
+    "chip_penalty": 1.5,
+    "hit_penalty_per_4": 0.5,
+    "avg_or_points": [
+      20,
+      15,
+      12,
+      9,
+      7,
+      5,
+      3,
+      2,
+      1
+    ],
+    "weekly_or_tiers": [
+      {
+        "max_rank": 10000,
+        "points": 3
+      },
+      {
+        "max_rank": 100000,
+        "points": 2
+      },
+      {
+        "max_rank": 200000,
+        "points": 1
+      }
+    ],
+    "transfer_pool": 4
+  },
+  "seal_after_hours": 48.0,
+  "data_version": 9,
+  "generated_at_utc": "2026-09-16T05:39:00Z",
+  "server_timestamp": 1789537140045
+}

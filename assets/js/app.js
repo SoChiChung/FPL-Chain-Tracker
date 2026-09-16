@@ -7,9 +7,25 @@
 /* ============ 配置 ============ */
 const CONFIG = {
   dataPath: 'data/',
+  // Vercel 无服务器实时接口（服务端代抓 FPL 官方 API —— 官方接口没有 CORS 头，浏览器不能直连）。
+  // 非 Vercel 环境（如 GitHub Pages）该路径 404，会自动回落到 data/*.json 静态快照。
+  liveApi: 'api/fpl-live',
   defaultAvatar: 'assets/avatar/default.png',
   // 账号头像：把 1:1 头像放入 assets/avatar/ 后修改此路径（PNG/JPG 均可）
   accountAvatar: 'assets/avatar/account.jpg',
+  // 阶段化刷新策略（与 lib/fpl-core.js 的 determinePhase 同一口径）：
+  //   live     有 GW 正在进行              → 60 秒轮询，绕过缓存
+  //   settling 上一 GW 已结束、仍在补分窗口 → 300 秒轮询
+  //   idle     GW 未开始 / 上一 GW 已冻结   → 不轮询，使用缓存
+  refreshMs: { live: 60000, settling: 300000, idle: 0 },
+  // 实时接口不可用时的重试冷却时间，避免每次请求都白等一次失败
+  liveCooldownMs: 60000,
+};
+
+const PHASE_LABELS = {
+  live: '实时更新中',
+  settling: '结算观察中',
+  idle: '已冻结，使用缓存',
 };
 
 const CHIP_LABELS = {
@@ -30,6 +46,14 @@ const state = {
   stats: null,
   loadedGws: new Set(),
   openedGw: null,
+  // 数据来源与刷新状态
+  source: null,          // 'live' | 'static'
+  liveAvailable: null,   // null = 未知，true / false = 已探测结果
+  liveRetryAt: 0,        // 实时接口不可用时的冷却截止时间
+  phase: null,           // 'live' | 'settling' | 'idle'
+  signature: null,       // 最近一次渲染的数据指纹，用于判断是否需要重绘
+  timer: null,
+  refreshing: false,
 };
 
 /* ============ 工具函数 ============ */
@@ -63,22 +87,173 @@ function bindAvatarFallback(root) {
 }
 
 /* ============ 数据层 ============ */
-async function fetchJson(file, opts = {}) {
+
+// 静态快照：data/*.json（由 crawler / GitHub Actions 生成）
+// ?v= 用 data_version 做缓存破坏：版本没变就命中浏览器缓存，减少请求
+function staticUrl(file, bust) {
   const base = CONFIG.dataPath + file;
-  const url = opts.noCache
-    ? base + '?t=' + Date.now()
-    : base + '?v=' + (state.meta ? state.meta.data_version : 0);
-  const resp = await fetch(url, opts.noCache ? { cache: 'no-store' } : undefined);
+  return bust ? base + '?t=' + Date.now() : base + '?v=' + (state.meta ? state.meta.data_version : 0);
+}
+
+// 实时接口：总是带时间戳绕开浏览器与 CDN 缓存；函数内部有自己的缓存策略
+function liveUrl(file) {
+  return CONFIG.liveApi + '?file=' + encodeURIComponent(file) + '&t=' + Date.now();
+}
+
+/**
+ * 取数据：优先实时接口，失败则回落到静态快照。
+ * @param {string} file  meta.json / summary.json / stats.json / gw-NN.json
+ * @param {object} [opts]
+ * @param {boolean} [opts.bust]  绕过静态快照的浏览器缓存
+ * @param {boolean} [opts.live]  false 时直接走静态快照（已冻结的历史轮次无需实时接口）
+ */
+async function fetchFile(file, opts = {}) {
+  const allowLive = opts.live !== false && state.liveAvailable !== false;
+  if (allowLive) {
+    try {
+      const res = await fetch(liveUrl(file), { cache: 'no-store' });
+      if (res.ok) {
+        const data = await res.json();
+        state.liveAvailable = true;
+        state.source = 'live';
+        const phase = res.headers.get('X-FPL-Phase');
+        if (phase && PHASE_LABELS[phase]) state.phase = phase;
+        if (res.headers.get('X-FPL-Source') === 'base-fallback') state.source = 'static';
+        return data;
+      }
+      // 404 => 该部署没有实时接口（GitHub Pages 等），永久回落；其他错误按冷却期重试
+      state.liveAvailable = false;
+      state.liveRetryAt = res.status === 404 ? Number.POSITIVE_INFINITY : Date.now() + CONFIG.liveCooldownMs;
+    } catch (err) {
+      state.liveAvailable = false;
+      state.liveRetryAt = Date.now() + CONFIG.liveCooldownMs;
+    }
+    state.source = 'static';
+  } else if (state.liveAvailable === false && Date.now() > state.liveRetryAt) {
+    state.liveAvailable = null; // 冷却期满，下一次请求重新尝试实时接口
+  }
+
+  const resp = await fetch(staticUrl(file, opts.bust), opts.bust ? { cache: 'no-store' } : undefined);
   if (!resp.ok) throw new Error('HTTP ' + resp.status + ' ' + file);
+  state.source = state.source === 'live' ? 'live' : 'static';
   return resp.json();
 }
 
 async function loadCore() {
   [state.meta, state.summary, state.stats] = await Promise.all([
-    fetchJson('meta.json', { noCache: true }),
-    fetchJson('summary.json'),
-    fetchJson('stats.json'),
+    fetchFile('meta.json', { bust: true }),
+    fetchFile('summary.json'),
+    fetchFile('stats.json'),
   ]);
+}
+
+/* ============ 阶段判定与自动刷新 ============ */
+
+/**
+ * 由 summary 的轮次状态推导阶段。与 lib/fpl-core.js 的 determinePhase() 同一口径：
+ * 只有「存在正在进行中的 GW」才必须放弃缓存；GW 未开始或上一 GW 已冻结时可用缓存。
+ */
+function phaseFromSummary(summary) {
+  const list = (summary && summary.gw_list) || [];
+  if (!list.length) return 'idle';
+  let currentId = null;
+  for (const g of list) {
+    if (g.status !== 'upcoming') currentId = currentId === null ? g.gw : Math.max(currentId, g.gw);
+  }
+  if (currentId === null) return 'idle';                                  // 赛季未开始
+  if (list[list.length - 1].status === 'sealed') return 'idle';           // 赛季结束
+  for (const g of list) {
+    if (g.status === 'live') return 'live';
+    if (g.status === 'finished' && g.gw <= currentId) return 'settling';
+  }
+  return 'idle';
+}
+
+/** 关键字段指纹：只有真正影响展示的内容变化时才重绘，避免轮询造成闪烁 */
+function summarySignature(summary) {
+  const list = (summary && summary.gw_list) || [];
+  return list.map(g => [
+    g.gw, g.status, g.score, g.overall_rank, g.total_points,
+    g.transfers_count, g.transfers_cost, (g.chips || []).join('+'),
+  ].join(':')).join('|');
+}
+
+function scheduleRefresh() {
+  if (state.timer) {
+    clearTimeout(state.timer);
+    state.timer = null;
+  }
+  const delay = CONFIG.refreshMs[state.phase] || 0;
+  if (!delay) return; // idle：按约定使用缓存，不再轮询
+  state.timer = setTimeout(pollOnce, delay);
+}
+
+async function pollOnce() {
+  state.timer = null;
+  if (state.refreshing) {
+    scheduleRefresh();
+    return;
+  }
+  // 后台标签页不抓取，切回前台时会立即补一次
+  if (document.hidden) {
+    scheduleRefresh();
+    return;
+  }
+  try {
+    const summary = await fetchFile('summary.json', { bust: true });
+    const nextPhase = phaseFromSummary(summary);
+    const signature = summarySignature(summary);
+    if (signature !== state.signature || nextPhase !== state.phase) {
+      state.summary = summary;
+      await reloadAll();
+    } else {
+      state.phase = nextPhase;
+    }
+  } catch (err) {
+    // 轮询失败静默处理，保留当前展示内容，下一轮再试
+  }
+  scheduleRefresh();
+}
+
+/** 重新拉取全部数据并重绘，保留展开中的轮次 */
+async function reloadAll() {
+  if (state.refreshing) return;
+  state.refreshing = true;
+  try {
+    const results = await Promise.all([
+      fetchFile('meta.json', { bust: true }),
+      fetchFile('summary.json', { bust: true }),
+      fetchFile('stats.json', { bust: true }),
+    ]);
+    [state.meta, state.summary, state.stats] = results;
+    state.loadedGws.clear(); // 进行中的轮次详情已过期，下次展开时重新拉取
+    renderAll();
+    reopenCurrentGw();
+  } catch (err) {
+    // 保留旧数据
+  } finally {
+    state.refreshing = false;
+  }
+}
+
+function reopenCurrentGw() {
+  if (state.openedGw === null) return;
+  const itemEl = document.querySelector('.gw-item[data-gw="' + state.openedGw + '"]');
+  if (!itemEl) return;
+  itemEl.classList.add('open');
+  const toggle = itemEl.querySelector('.gw-toggle');
+  if (toggle) toggle.textContent = '▾';
+  openGw(state.openedGw, itemEl);
+}
+
+/** 手动刷新（页脚按钮 / 切回前台） */
+async function refreshNow() {
+  if (state.liveAvailable === false) {
+    state.liveAvailable = null; // 手动刷新时重新尝试实时接口
+    state.liveRetryAt = 0;
+  }
+  await reloadAll();
+  scheduleRefresh();
 }
 
 /* ============ Tab 1：接龙赛 ============ */
@@ -150,9 +325,12 @@ async function openGw(gw, itemEl) {
     detailEl.classList.add('loaded');
     return;
   }
+  // 已冻结的轮次内容不会再变，直接走静态快照，省一次实时接口调用
+  const row = state.summary && state.summary.gw_list ? state.summary.gw_list[gw - 1] : null;
+  const needLive = !row || row.status !== 'sealed';
   detailEl.innerHTML = '<p class="gw-loading">加载中…</p>';
   try {
-    const data = await fetchJson(`gw-${padGw(gw)}.json`);
+    const data = await fetchFile(`gw-${padGw(gw)}.json`, { live: needLive, bust: needLive });
     state.loadedGws.add(gw);
     detailEl.innerHTML = gwDetailHtml(data);
   } catch (err) {
@@ -410,20 +588,48 @@ function bindLeaderboard() {
   });
 }
 
-/* ============ 页脚更新时间 ============ */
+/* ============ 页脚：数据新鲜度 ============ */
+function renderAll() {
+  renderAccountCard();
+  renderTimeline();
+  renderLeaderboard();
+  renderFooter();
+}
+
 function renderFooter() {
   const el = document.getElementById('updated-at');
+  if (!el) return;
+  const parts = [];
   const ts = state.meta && state.meta.generated_at_utc;
-  if (!ts) { el.textContent = ''; return; }
-  const local = new Date(ts).toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' });
-  el.textContent = '数据更新于 ' + local + '（北京时间）· 数据来源 FPL 官方 API';
+  if (ts) {
+    const local = new Date(ts).toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' });
+    parts.push('数据更新于 ' + local + '（北京时间）');
+  }
+  if (state.source === 'live') {
+    parts.push('实时接口 · ' + (PHASE_LABELS[state.phase] || '已连接'));
+  } else if (state.source === 'static') {
+    parts.push('静态快照 · 未连接实时接口');
+  }
+  parts.push('数据来源 FPL 官方 API');
+  el.textContent = parts.join(' · ');
 }
 
 /* ============ 启动 ============ */
+function bindRefresh() {
+  const btn = document.getElementById('refresh-data');
+  if (btn) btn.addEventListener('click', refreshNow);
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) return;
+    // 切回前台时立刻补一次（轮询在后台标签页中会跳过一次）
+    if (state.phase && CONFIG.refreshMs[state.phase]) pollOnce();
+  });
+}
+
 async function init() {
   bindTabs();
   bindTimeline();
   bindLeaderboard();
+  bindRefresh();
   try {
     await loadCore();
   } catch (err) {
@@ -431,10 +637,10 @@ async function init() {
       '<p class="lb-empty">数据加载失败，请稍后重试（' + esc(err.message) + '）</p>';
     return;
   }
-  renderAccountCard();
-  renderTimeline();
-  renderLeaderboard();
-  renderFooter();
+  state.phase = phaseFromSummary(state.summary);
+  state.signature = summarySignature(state.summary);
+  renderAll();
+  scheduleRefresh();
 }
 
 document.addEventListener('DOMContentLoaded', init);

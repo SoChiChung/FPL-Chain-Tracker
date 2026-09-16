@@ -1,5 +1,11 @@
-/* FPL Chain Tracker 本地开发服务器（零依赖，Node 内置模块）
- * 用法：npm start  （端口可用环境变量 PORT 覆盖，默认 8000）
+/* FPL Chain Tracker 本地静态服务器（零依赖，Node 内置模块）
+ *
+ * 用法：
+ *   npm run serve      只启动静态服务器（端口用环境变量 PORT 覆盖，默认 8000）
+ *   npm start          先抓取最新数据再启动（见 dev.js）
+ *
+ * 也可作为模块被复用：require('./server.js').createStaticServer()
+ * 或取用请求处理器 handleStatic（scripts/live-server.js 用它叠加实时接口）。
  */
 'use strict';
 
@@ -25,7 +31,7 @@ const MIME = {
   '.txt': 'text/plain; charset=utf-8',
 };
 
-http.createServer((req, res) => {
+function handleStatic(req, res) {
   let pathname;
   try {
     pathname = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
@@ -49,9 +55,29 @@ http.createServer((req, res) => {
       res.end('Not Found');
       return;
     }
-    res.writeHead(200, { 'Content-Type': MIME[path.extname(filePath).toLowerCase()] || 'application/octet-stream' });
+    res.writeHead(200, {
+      'Content-Type': MIME[path.extname(filePath).toLowerCase()] || 'application/octet-stream',
+      // 本地预览不做缓存，改完刷新即可见
+      'Cache-Control': 'no-cache',
+    });
     res.end(data);
   });
-}).listen(PORT, () => {
-  console.log(`FPL Chain Tracker 已启动: http://localhost:${PORT}`);
-});
+}
+
+function createStaticServer() {
+  return http.createServer(handleStatic);
+}
+
+function startStaticServer(port = PORT) {
+  const server = createStaticServer();
+  server.listen(port, () => {
+    console.log(`FPL Chain Tracker 已启动: http://localhost:${port}`);
+  });
+  return server;
+}
+
+module.exports = { handleStatic, createStaticServer, startStaticServer, ROOT, PORT };
+
+if (require.main === module) {
+  startStaticServer();
+}

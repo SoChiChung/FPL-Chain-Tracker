@@ -6,6 +6,30 @@
   "required": ["season", "team", "current_gw", "next_deadline", "events", "managers", "data_version", "generated_at_utc", "server_timestamp"],
   "properties": {
     "season": { "type": "string", "pattern": "^\\d{4}-\\d{2}$" },
+    "timezone": { "type": "string", "description": "IANA 时区名（design.md §16.6）" },
+    "rules": {
+      "type": "object",
+      "description": "赛事积分规则，与 config.json 的 rules 同源（design.md §16.6）",
+      "properties": {
+        "large_bgw_gws": { "type": "array", "items": { "type": "integer" } },
+        "chip_penalty": { "type": "number" },
+        "hit_penalty_per_4": { "type": "number" },
+        "avg_or_points": { "type": "array", "items": { "type": "number" } },
+        "weekly_or_tiers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["max_rank", "points"],
+            "properties": {
+              "max_rank": { "type": "integer" },
+              "points": { "type": "number" }
+            }
+          }
+        },
+        "transfer_pool": { "type": "number" }
+      }
+    },
+    "seal_after_hours": { "type": "number", "description": "封印宽限期，与 crawl.seal_after_hours 同值（design.md §16.6）" },
     "team": {
       "type": "object",
       "required": ["id", "name", "started_event", "current_event"],

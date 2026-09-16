@@ -1,11 +1,65 @@
-# API 采集产物（data/）：数据由 GitHub Actions 在服务端生成并强制提交（git add -f），
-# 本地忽略 —— 本地只提交代码逻辑，运行采集也不会产生冲突（见 README「本地运行与提交」）
+# ============================================================
+# FPL Chain Tracker —— 忽略规则
+#
+# 原则：只把「代码 + 配置 + 静态资源」提交进仓库；
+#       运行时产物、依赖、本地工具配置一律不入库。
+# ============================================================
+
+# ---------- 采集产物 ----------
+# data/ 是 crawler 的产物：本地忽略，避免本地/服务端的数据提交互相冲突。
+# 线上数据由 GitHub Actions 在服务端生成并强制提交（git add -f data/，见
+# .github/workflows/update-data.yml 与 README「本地运行与提交」）。
+# 实时数据层（api/fpl-live.js）也把这里当作「已冻结历史」的基线。
 data/
 
-# Python 缓存
+# ---------- 依赖与编译缓存 ----------
+node_modules/
+.pnpm-store/
 __pycache__/
 *.pyc
+*.pyo
 
-# 系统文件
+# ---------- 构建 / 部署产物 ----------
+.vercel/
+dist/
+build/
+out/
+.cache/
+*.tsbuildinfo
+
+# ---------- 日志与临时文件 ----------
+*.log
+npm-debug.log*
+yarn-error.log*
+logs/
+tmp/
+temp/
+*.tmp
+*.bak
+
+# ---------- 本地工具与编辑器配置 ----------
+.claude/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ---------- 环境变量（可能含密钥，绝不入库） ----------
+.env
+.env.*
+!.env.example
+
+# ---------- 操作系统文件 ----------
 .DS_Store
+._*
+Thumbs.db
+desktop-thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# ---------- 过程性文档与草稿 ----------
+# 赛事规则原件由主办方线下维护，不随代码发布
 9人制FPL接力赛规则（修改版）.md
+# 设计草稿副本（design-preview.html 是正式原型，保留版本化）
+*副本*

@@ -553,3 +553,33 @@
   padding: 8px 0;
 }
 .gw-empty { margin: 0; }
+
+/* ============================================================
+   补充：页脚「刷新数据」按钮（配合实时数据层）
+   ============================================================ */
+.site-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+.refresh-btn {
+  padding: 7px 16px;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--gold-strong);
+  background: rgba(232, 179, 106, 0.08);
+  border: 1px solid var(--line-gold);
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
+}
+.refresh-btn:hover {
+  background: rgba(232, 179, 106, 0.16);
+  color: #f7e7cc;
+}
+.refresh-btn:active { transform: scale(0.97); }
+.refresh-btn:disabled { opacity: 0.5; cursor: default; }

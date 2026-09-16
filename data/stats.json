@@ -1,0 +1,484 @@
+{
+  "season": "2026-27",
+  "data_version": 9,
+  "updated_at_utc": "2026-09-16T05:33:20Z",
+  "season_settled": false,
+  "managers": [
+    {
+      "name": "Fran",
+      "start_gw": 3,
+      "end_gw": 6,
+      "gw_count": 4,
+      "completed": false,
+      "live": false,
+      "avg_rank": 4408332.0,
+      "best_rank": 3324502,
+      "avg_score": 70.0,
+      "best_score": 89,
+      "worst_score": 51,
+      "total_score": 140,
+      "rank_change": null,
+      "chips_used": [],
+      "total_transfers": 1,
+      "total_transfers_cost": 0,
+      "score": 0,
+      "settled": false,
+      "disqualified": false,
+      "disqualify_reason": null,
+      "points": {
+        "avg_or_award": null,
+        "avg_or_position": null,
+        "weekly_or_award": 0,
+        "transfer_award": null,
+        "transfer_eligible": true,
+        "transfer_count": 1,
+        "hit_penalty": 0,
+        "hit_cost": 0,
+        "chip_penalty": 0,
+        "chips_penalized": []
+      },
+      "score_details": [
+        {
+          "label": "平均 OR 排名奖励",
+          "value": "待结算",
+          "kind": "pending"
+        },
+        {
+          "label": "单周 OR 奖励",
+          "value": 0,
+          "kind": "reward"
+        },
+        {
+          "label": "赛季末转会奖励",
+          "value": "待结算",
+          "kind": "pending"
+        }
+      ],
+      "rank": 1
+    },
+    {
+      "name": "remember",
+      "start_gw": 7,
+      "end_gw": 10,
+      "gw_count": 4,
+      "completed": false,
+      "live": false,
+      "avg_rank": null,
+      "best_rank": null,
+      "avg_score": null,
+      "best_score": null,
+      "worst_score": null,
+      "total_score": null,
+      "rank_change": null,
+      "chips_used": [],
+      "total_transfers": 0,
+      "total_transfers_cost": 0,
+      "score": 0,
+      "settled": false,
+      "disqualified": false,
+      "disqualify_reason": null,
+      "points": {
+        "avg_or_award": null,
+        "avg_or_position": null,
+        "weekly_or_award": 0,
+        "transfer_award": null,
+        "transfer_eligible": true,
+        "transfer_count": 0,
+        "hit_penalty": 0,
+        "hit_cost": 0,
+        "chip_penalty": 0,
+        "chips_penalized": []
+      },
+      "score_details": [
+        {
+          "label": "平均 OR 排名奖励",
+          "value": "待结算",
+          "kind": "pending"
+        },
+        {
+          "label": "单周 OR 奖励",
+          "value": 0,
+          "kind": "reward"
+        },
+        {
+          "label": "赛季末转会奖励",
+          "value": "待结算",
+          "kind": "pending"
+        }
+      ],
+      "rank": 1
+    },
+    {
+      "name": "欧巡",
+      "start_gw": 11,
+      "end_gw": 14,
+      "gw_count": 4,
+      "completed": false,
+      "live": false,
+      "avg_rank": null,
+      "best_rank": null,
+      "avg_score": null,
+      "best_score": null,
+      "worst_score": null,
+      "total_score": null,
+      "rank_change": null,
+      "chips_used": [],
+      "total_transfers": 0,
+      "total_transfers_cost": 0,
+      "score": 0,
+      "settled": false,
+      "disqualified": false,
+      "disqualify_reason": null,
+      "points": {
+        "avg_or_award": null,
+        "avg_or_position": null,
+        "weekly_or_award": 0,
+        "transfer_award": null,
+        "transfer_eligible": true,
+        "transfer_count": 0,
+        "hit_penalty": 0,
+        "hit_cost": 0,
+        "chip_penalty": 0,
+        "chips_penalized": []
+      },
+      "score_details": [
+        {
+          "label": "平均 OR 排名奖励",
+          "value": "待结算",
+          "kind": "pending"
+        },
+        {
+          "label": "单周 OR 奖励",
+          "value": 0,
+          "kind": "reward"
+        },
+        {
+          "label": "赛季末转会奖励",
+          "value": "待结算",
+          "kind": "pending"
+        }
+      ],
+      "rank": 1
+    },
+    {
+      "name": "中国合伙人",
+      "start_gw": 15,
+      "end_gw": 18,
+      "gw_count": 4,
+      "completed": false,
+      "live": false,
+      "avg_rank": null,
+      "best_rank": null,
+      "avg_score": null,
+      "best_score": null,
+      "worst_score": null,
+      "total_score": null,
+      "rank_change": null,
+      "chips_used": [],
+      "total_transfers": 0,
+      "total_transfers_cost": 0,
+      "score": 0,
+      "settled": false,
+      "disqualified": false,
+      "disqualify_reason": null,
+      "points": {
+        "avg_or_award": null,
+        "avg_or_position": null,
+        "weekly_or_award": 0,
+        "transfer_award": null,
+        "transfer_eligible": true,
+        "transfer_count": 0,
+        "hit_penalty": 0,
+        "hit_cost": 0,
+        "chip_penalty": 0,
+        "chips_penalized": []
+      },
+      "score_details": [
+        {
+          "label": "平均 OR 排名奖励",
+          "value": "待结算",
+          "kind": "pending"
+        },
+        {
+          "label": "单周 OR 奖励",
+          "value": 0,
+          "kind": "reward"
+        },
+        {
+          "label": "赛季末转会奖励",
+          "value": "待结算",
+          "kind": "pending"
+        }
+      ],
+      "rank": 1
+    },
+    {
+      "name": "进藤光",
+      "start_gw": 19,
+      "end_gw": 22,
+      "gw_count": 4,
+      "completed": false,
+      "live": false,
+      "avg_rank": null,
+      "best_rank": null,
+      "avg_score": null,
+      "best_score": null,
+      "worst_score": null,
+      "total_score": null,
+      "rank_change": null,
+      "chips_used": [],
+      "total_transfers": 0,
+      "total_transfers_cost": 0,
+      "score": 0,
+      "settled": false,
+      "disqualified": false,
+      "disqualify_reason": null,
+      "points": {
+        "avg_or_award": null,
+        "avg_or_position": null,
+        "weekly_or_award": 0,
+        "transfer_award": null,
+        "transfer_eligible": true,
+        "transfer_count": 0,
+        "hit_penalty": 0,
+        "hit_cost": 0,
+        "chip_penalty": 0,
+        "chips_penalized": []
+      },
+      "score_details": [
+        {
+          "label": "平均 OR 排名奖励",
+          "value": "待结算",
+          "kind": "pending"
+        },
+        {
+          "label": "单周 OR 奖励",
+          "value": 0,
+          "kind": "reward"
+        },
+        {
+          "label": "赛季末转会奖励",
+          "value": "待结算",
+          "kind": "pending"
+        }
+      ],
+      "rank": 1
+    },
+    {
+      "name": "香克利",
+      "start_gw": 23,
+      "end_gw": 26,
+      "gw_count": 4,
+      "completed": false,
+      "live": false,
+      "avg_rank": null,
+      "best_rank": null,
+      "avg_score": null,
+      "best_score": null,
+      "worst_score": null,
+      "total_score": null,
+      "rank_change": null,
+      "chips_used": [],
+      "total_transfers": 0,
+      "total_transfers_cost": 0,
+      "score": 0,
+      "settled": false,
+      "disqualified": false,
+      "disqualify_reason": null,
+      "points": {
+        "avg_or_award": null,
+        "avg_or_position": null,
+        "weekly_or_award": 0,
+        "transfer_award": null,
+        "transfer_eligible": true,
+        "transfer_count": 0,
+        "hit_penalty": 0,
+        "hit_cost": 0,
+        "chip_penalty": 0,
+        "chips_penalized": []
+      },
+      "score_details": [
+        {
+          "label": "平均 OR 排名奖励",
+          "value": "待结算",
+          "kind": "pending"
+        },
+        {
+          "label": "单周 OR 奖励",
+          "value": 0,
+          "kind": "reward"
+        },
+        {
+          "label": "赛季末转会奖励",
+          "value": "待结算",
+          "kind": "pending"
+        }
+      ],
+      "rank": 1
+    },
+    {
+      "name": "紫葱酱",
+      "start_gw": 27,
+      "end_gw": 30,
+      "gw_count": 4,
+      "completed": false,
+      "live": false,
+      "avg_rank": null,
+      "best_rank": null,
+      "avg_score": null,
+      "best_score": null,
+      "worst_score": null,
+      "total_score": null,
+      "rank_change": null,
+      "chips_used": [],
+      "total_transfers": 0,
+      "total_transfers_cost": 0,
+      "score": 0,
+      "settled": false,
+      "disqualified": false,
+      "disqualify_reason": null,
+      "points": {
+        "avg_or_award": null,
+        "avg_or_position": null,
+        "weekly_or_award": 0,
+        "transfer_award": null,
+        "transfer_eligible": true,
+        "transfer_count": 0,
+        "hit_penalty": 0,
+        "hit_cost": 0,
+        "chip_penalty": 0,
+        "chips_penalized": []
+      },
+      "score_details": [
+        {
+          "label": "平均 OR 排名奖励",
+          "value": "待结算",
+          "kind": "pending"
+        },
+        {
+          "label": "单周 OR 奖励",
+          "value": 0,
+          "kind": "reward"
+        },
+        {
+          "label": "赛季末转会奖励",
+          "value": "待结算",
+          "kind": "pending"
+        }
+      ],
+      "rank": 1
+    },
+    {
+      "name": "面条",
+      "start_gw": 31,
+      "end_gw": 34,
+      "gw_count": 4,
+      "completed": false,
+      "live": false,
+      "avg_rank": null,
+      "best_rank": null,
+      "avg_score": null,
+      "best_score": null,
+      "worst_score": null,
+      "total_score": null,
+      "rank_change": null,
+      "chips_used": [],
+      "total_transfers": 0,
+      "total_transfers_cost": 0,
+      "score": 0,
+      "settled": false,
+      "disqualified": false,
+      "disqualify_reason": null,
+      "points": {
+        "avg_or_award": null,
+        "avg_or_position": null,
+        "weekly_or_award": 0,
+        "transfer_award": null,
+        "transfer_eligible": true,
+        "transfer_count": 0,
+        "hit_penalty": 0,
+        "hit_cost": 0,
+        "chip_penalty": 0,
+        "chips_penalized": []
+      },
+      "score_details": [
+        {
+          "label": "平均 OR 排名奖励",
+          "value": "待结算",
+          "kind": "pending"
+        },
+        {
+          "label": "单周 OR 奖励",
+          "value": 0,
+          "kind": "reward"
+        },
+        {
+          "label": "赛季末转会奖励",
+          "value": "待结算",
+          "kind": "pending"
+        }
+      ],
+      "rank": 1
+    },
+    {
+      "name": "企鹅",
+      "start_gw": 35,
+      "end_gw": 38,
+      "gw_count": 4,
+      "completed": false,
+      "live": false,
+      "avg_rank": null,
+      "best_rank": null,
+      "avg_score": null,
+      "best_score": null,
+      "worst_score": null,
+      "total_score": null,
+      "rank_change": null,
+      "chips_used": [],
+      "total_transfers": 0,
+      "total_transfers_cost": 0,
+      "score": 0,
+      "settled": false,
+      "disqualified": false,
+      "disqualify_reason": null,
+      "points": {
+        "avg_or_award": null,
+        "avg_or_position": null,
+        "weekly_or_award": 0,
+        "transfer_award": null,
+        "transfer_eligible": true,
+        "transfer_count": 0,
+        "hit_penalty": 0,
+        "hit_cost": 0,
+        "chip_penalty": 0,
+        "chips_penalized": []
+      },
+      "score_details": [
+        {
+          "label": "平均 OR 排名奖励",
+          "value": "待结算",
+          "kind": "pending"
+        },
+        {
+          "label": "单周 OR 奖励",
+          "value": 0,
+          "kind": "reward"
+        },
+        {
+          "label": "赛季末转会奖励",
+          "value": "待结算",
+          "kind": "pending"
+        }
+      ],
+      "rank": 1
+    }
+  ],
+  "season_totals": {
+    "total_points": 264,
+    "best_rank": 2201654,
+    "current_rank": 3324502,
+    "gw_played": 4,
+    "total_transfers": 1,
+    "total_transfers_cost": 0
+  }
+}

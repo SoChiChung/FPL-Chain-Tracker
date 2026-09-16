@@ -1,0 +1,201 @@
+{
+  "season": "2026-27",
+  "gw": 3,
+  "status": "sealed",
+  "summary": {
+    "gw": 3,
+    "status": "sealed",
+    "manager": "Fran",
+    "manager_avatar": "assets/avatar/Fran.jpg",
+    "score": 51,
+    "total_points": 175,
+    "overall_rank": 5492162,
+    "gw_rank": 5471861,
+    "chips": [],
+    "transfers_count": 1,
+    "transfers_cost": 0,
+    "has_detail": true
+  },
+  "lineup": {
+    "starters": [
+      {
+        "element": 384,
+        "name": "Donnarumma",
+        "team": "MCI",
+        "position_type": "GKP",
+        "is_captain": false,
+        "is_vice_captain": false,
+        "multiplier": 1,
+        "is_substitute": false,
+        "points": 7
+      },
+      {
+        "element": 391,
+        "name": "Gvardiol",
+        "team": "MCI",
+        "position_type": "DEF",
+        "is_captain": false,
+        "is_vice_captain": false,
+        "multiplier": 1,
+        "is_substitute": false,
+        "points": 8
+      },
+      {
+        "element": 115,
+        "name": "De Cuyper",
+        "team": "BHA",
+        "position_type": "DEF",
+        "is_captain": false,
+        "is_vice_captain": false,
+        "multiplier": 1,
+        "is_substitute": false,
+        "points": 4
+      },
+      {
+        "element": 229,
+        "name": "Tarkowski",
+        "team": "EVE",
+        "position_type": "DEF",
+        "is_captain": false,
+        "is_vice_captain": false,
+        "multiplier": 1,
+        "is_substitute": false,
+        "points": 3
+      },
+      {
+        "element": 201,
+        "name": "Muñoz",
+        "team": "NFO",
+        "position_type": "DEF",
+        "is_captain": false,
+        "is_vice_captain": false,
+        "multiplier": 1,
+        "is_substitute": false,
+        "points": 1
+      },
+      {
+        "element": 4,
+        "name": "Gabriel",
+        "team": "ARS",
+        "position_type": "DEF",
+        "is_captain": false,
+        "is_vice_captain": false,
+        "multiplier": 1,
+        "is_substitute": false,
+        "points": 2
+      },
+      {
+        "element": 13,
+        "name": "Rice",
+        "team": "ARS",
+        "position_type": "MID",
+        "is_captain": false,
+        "is_vice_captain": false,
+        "multiplier": 1,
+        "is_substitute": false,
+        "points": 5
+      },
+      {
+        "element": 366,
+        "name": "Wirtz",
+        "team": "LIV",
+        "position_type": "MID",
+        "is_captain": false,
+        "is_vice_captain": true,
+        "multiplier": 1,
+        "is_substitute": false,
+        "points": 3
+      },
+      {
+        "element": 481,
+        "name": "Anderson",
+        "team": "MCI",
+        "position_type": "MID",
+        "is_captain": false,
+        "is_vice_captain": false,
+        "multiplier": 1,
+        "is_substitute": false,
+        "points": 3
+      },
+      {
+        "element": 367,
+        "name": "Gakpo",
+        "team": "LIV",
+        "position_type": "MID",
+        "is_captain": false,
+        "is_vice_captain": false,
+        "multiplier": 1,
+        "is_substitute": false,
+        "points": 11
+      },
+      {
+        "element": 106,
+        "name": "Thiago",
+        "team": "BRE",
+        "position_type": "FWD",
+        "is_captain": true,
+        "is_vice_captain": false,
+        "multiplier": 2,
+        "is_substitute": false,
+        "points": 2
+      }
+    ],
+    "subs": [
+      {
+        "element": 58,
+        "name": "Forster",
+        "team": "BOU",
+        "position_type": "GKP",
+        "is_captain": false,
+        "is_vice_captain": false,
+        "multiplier": 0,
+        "is_substitute": true,
+        "points": 0
+      },
+      {
+        "element": 55,
+        "name": "Watkins",
+        "team": "AVL",
+        "position_type": "FWD",
+        "is_captain": false,
+        "is_vice_captain": false,
+        "multiplier": 0,
+        "is_substitute": true,
+        "points": 0
+      },
+      {
+        "element": 165,
+        "name": "João Pedro",
+        "team": "CHE",
+        "position_type": "FWD",
+        "is_captain": false,
+        "is_vice_captain": false,
+        "multiplier": 0,
+        "is_substitute": true,
+        "points": 1
+      },
+      {
+        "element": 40,
+        "name": "Rogers",
+        "team": "CHE",
+        "position_type": "MID",
+        "is_captain": false,
+        "is_vice_captain": false,
+        "multiplier": 0,
+        "is_substitute": true,
+        "points": 6
+      }
+    ]
+  },
+  "transfers": [
+    {
+      "element_in": 115,
+      "element_in_name": "De Cuyper",
+      "element_out": 200,
+      "element_out_name": "Lacroix",
+      "gw": 3,
+      "time_utc": "2026-09-01T17:40:47.531315Z"
+    }
+  ],
+  "chips": []
+}

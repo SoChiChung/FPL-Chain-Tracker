@@ -2,9 +2,14 @@
   "name": "fpl-chain-tracker",
   "version": "0.1.0",
   "private": true,
-  "description": "FPL 接龙赛账号历史追踪（GitHub Pages 静态站点）",
+  "description": "FPL 接龙赛账号历史追踪（Vercel / GitHub Pages 静态站点 + 实时数据接口）",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node dev.js"
+    "start": "node dev.js",
+    "dev": "node dev.js",
+    "serve": "node server.js",
+    "live": "node scripts/live-server.js",
+    "crawl": "python crawler/run.py --config config.json",
+    "verify": "node scripts/verify-live.js",
+    "verify:offline": "node scripts/verify-live.js --offline"
   }
 }
