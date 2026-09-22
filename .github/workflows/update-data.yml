@@ -11,6 +11,12 @@ on:
     branches: [main]
     paths: ["crawler/**", "config.json", ".github/workflows/update-data.yml"]
 
+# 必须显式声明。GitHub 对个人账号新建仓库的 GITHUB_TOKEN 默认只有 contents: read，
+# 缺这一行时的表现是：抓取成功、commit 成功，但 git push 被 403 拒绝，数据永远上不去。
+# 仓库设置里的「Workflow permissions」只是默认值，工作流可以用本键自行提权。
+permissions:
+  contents: write
+
 concurrency:
   group: fpl-data-update
   cancel-in-progress: false
@@ -22,6 +28,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          # 默认 fetch-depth: 1 是浅克隆，下面兜底分支里的 git pull --rebase 不可靠
+          fetch-depth: 0
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -35,16 +44,22 @@ jobs:
         run: |
           git config user.name "FPLChainTracker Bot"
           git config user.email "fpl-chain-tracker[bot]@users.noreply.github.com"
-          # 仅内容文件（summary/stats/gw-*）变化才提交；meta.json 每次都会刷新时间戳，不算内容变化
+
           # data/ 在 .gitignore 中，必须用 -f 强制加入；排除 .tmp 临时目录
-          if git diff --quiet -- data/ ':(exclude)data/meta.json'; then
+          git add -f data/ ':(exclude)data/.tmp'
+
+          # 用「暂存区 vs HEAD」判定是否有真实内容变化。
+          # 原来的 git diff 只比较已跟踪文件，会漏掉首次出现的 data/gw-NN.json；
+          # meta.json 每次都刷新时间戳，判定时必须排除，否则每 30 分钟产生一次空提交。
+          # 注意：仅「判定」时排除，提交时 meta.json 仍在暂存区、会一并提交（前端需要它的字段）。
+          if git diff --cached --quiet -- data/ ':(exclude)data/meta.json'; then
             echo "No content changes; skip commit"
-          else
-            git add -f data/ ':(exclude)data/.tmp'
-            git commit -m "chore(data): update FPL chain tracker data [skip ci]"
-            git push || {
-              echo "Push failed, retrying after rebase"
-              git pull --rebase
-              git push
-            }
+            exit 0
           fi
+
+          git commit -m "chore(data): update FPL chain tracker data [skip ci]"
+          git push || {
+            echo "Push failed, retrying after rebase"
+            git pull --rebase
+            git push
+          }
