@@ -1,7 +1,7 @@
 {
   "season": "2026-27",
-  "data_version": 9,
-  "updated_at_utc": "2026-09-16T05:33:20Z",
+  "data_version": 10,
+  "updated_at_utc": "2026-10-02T07:42:59Z",
   "season_settled": false,
   "managers": [
     {
@@ -10,13 +10,13 @@
       "end_gw": 6,
       "gw_count": 4,
       "completed": false,
-      "live": false,
-      "avg_rank": 4408332.0,
+      "live": true,
+      "avg_rank": 4053253.3,
       "best_rank": 3324502,
-      "avg_score": 70.0,
+      "avg_score": 62.7,
       "best_score": 89,
-      "worst_score": 51,
-      "total_score": 140,
+      "worst_score": 48,
+      "total_score": 188,
       "rank_change": null,
       "chips_used": [],
       "total_transfers": 1,
@@ -474,10 +474,10 @@
     }
   ],
   "season_totals": {
-    "total_points": 264,
+    "total_points": 312,
     "best_rank": 2201654,
-    "current_rank": 3324502,
-    "gw_played": 4,
+    "current_rank": 3343096,
+    "gw_played": 5,
     "total_transfers": 1,
     "total_transfers_cost": 0
   }

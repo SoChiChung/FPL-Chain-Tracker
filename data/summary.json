@@ -1,7 +1,7 @@
 {
   "season": "2026-27",
-  "data_version": 9,
-  "updated_at_utc": "2026-09-16T05:33:20Z",
+  "data_version": 10,
+  "updated_at_utc": "2026-10-02T07:42:59Z",
   "gw_list": [
     {
       "gw": 1,
@@ -61,17 +61,17 @@
     },
     {
       "gw": 5,
-      "status": "upcoming",
+      "status": "finished",
       "manager": "Fran",
       "manager_avatar": "assets/avatar/Fran.jpg",
-      "score": null,
-      "total_points": null,
-      "overall_rank": null,
-      "gw_rank": null,
-      "chips": null,
+      "score": 48,
+      "total_points": 312,
+      "overall_rank": 3343096,
+      "gw_rank": 5099293,
+      "chips": [],
       "transfers_count": 0,
       "transfers_cost": 0,
-      "has_detail": false
+      "has_detail": true
     },
     {
       "gw": 6,
