@@ -1,7 +1,7 @@
 {
   "season": "2026-27",
-  "data_version": 10,
-  "updated_at_utc": "2026-10-02T07:42:59Z",
+  "data_version": 11,
+  "updated_at_utc": "2026-10-02T07:49:39Z",
   "gw_list": [
     {
       "gw": 1,
@@ -61,7 +61,7 @@
     },
     {
       "gw": 5,
-      "status": "finished",
+      "status": "sealed",
       "manager": "Fran",
       "manager_avatar": "assets/avatar/Fran.jpg",
       "score": 48,
