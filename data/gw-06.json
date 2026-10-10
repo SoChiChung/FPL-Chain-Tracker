@@ -71,7 +71,7 @@
         "is_vice_captain": false,
         "multiplier": 1,
         "is_substitute": false,
-        "points": 0
+        "points": 15
       },
       {
         "element": 367,
@@ -93,7 +93,7 @@
         "is_vice_captain": false,
         "multiplier": 1,
         "is_substitute": false,
-        "points": 2
+        "points": 7
       },
       {
         "element": 366,
@@ -115,7 +115,7 @@
         "is_vice_captain": false,
         "multiplier": 1,
         "is_substitute": false,
-        "points": 0
+        "points": 9
       },
       {
         "element": 55,
@@ -137,7 +137,7 @@
         "is_vice_captain": false,
         "multiplier": 2,
         "is_substitute": false,
-        "points": 0
+        "points": 12
       }
     ],
     "subs": [
@@ -161,7 +161,7 @@
         "is_vice_captain": false,
         "multiplier": 0,
         "is_substitute": true,
-        "points": 0
+        "points": 4
       },
       {
         "element": 391,
