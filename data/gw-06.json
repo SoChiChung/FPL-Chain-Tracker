@@ -49,7 +49,7 @@
         "is_vice_captain": false,
         "multiplier": 1,
         "is_substitute": false,
-        "points": 0
+        "points": 1
       },
       {
         "element": 229,
@@ -60,7 +60,7 @@
         "is_vice_captain": false,
         "multiplier": 1,
         "is_substitute": false,
-        "points": 0
+        "points": 1
       },
       {
         "element": 115,
