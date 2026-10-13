@@ -1,7 +1,7 @@
 {
   "season": "2026-27",
-  "data_version": 17,
-  "updated_at_utc": "2026-10-11T22:18:00Z",
+  "data_version": 18,
+  "updated_at_utc": "2026-10-13T01:08:36Z",
   "gw_list": [
     {
       "gw": 1,
@@ -80,8 +80,8 @@
       "manager_avatar": "assets/avatar/Fran.jpg",
       "score": 63,
       "total_points": 375,
-      "overall_rank": 2993280,
-      "gw_rank": 3087735,
+      "overall_rank": 3055629,
+      "gw_rank": 3278184,
       "chips": [],
       "transfers_count": 0,
       "transfers_cost": 0,
