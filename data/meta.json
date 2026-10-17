@@ -7,17 +7,17 @@
     "player_first_name": "WUDI",
     "player_last_name": "WUDI",
     "started_event": 1,
-    "current_event": 6
+    "current_event": 7
   },
   "current_gw": {
-    "id": 6,
+    "id": 7,
     "status": "live"
   },
   "next_deadline": {
-    "gw": 7,
-    "deadline_utc": "2026-10-17T10:00:00Z",
-    "deadline_beijing": "2026-10-17T18:00:00+08:00",
-    "deadline_timestamp": 1792231200000
+    "gw": 8,
+    "deadline_utc": "2026-10-23T17:30:00Z",
+    "deadline_beijing": "2026-10-24T01:30:00+08:00",
+    "deadline_timestamp": 1792776600000
   },
   "events": [
     {
@@ -81,7 +81,7 @@
       "deadline_beijing": "2026-10-17T18:00:00+08:00",
       "deadline_timestamp": 1792231200000,
       "finished": false,
-      "status": "upcoming"
+      "status": "live"
     },
     {
       "id": 8,
@@ -369,14 +369,14 @@
       "start_gw": 3,
       "end_gw": 6,
       "avatar": "assets/avatar/Fran.jpg",
-      "active": true
+      "active": false
     },
     {
       "name": "remember",
       "start_gw": 7,
       "end_gw": 10,
       "avatar": "assets/avatar/remember.jpg",
-      "active": false
+      "active": true
     },
     {
       "name": "欧巡",
@@ -460,7 +460,7 @@
     "transfer_pool": 4
   },
   "seal_after_hours": 48.0,
-  "data_version": 19,
-  "generated_at_utc": "2026-10-13T16:16:24Z",
-  "server_timestamp": 1791908184395
+  "data_version": 20,
+  "generated_at_utc": "2026-10-17T14:05:49Z",
+  "server_timestamp": 1792245949089
 }
