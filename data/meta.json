@@ -460,7 +460,7 @@
     "transfer_pool": 4
   },
   "seal_after_hours": 48.0,
-  "data_version": 22,
-  "generated_at_utc": "2026-10-17T21:59:55Z",
-  "server_timestamp": 1792274395472
+  "data_version": 23,
+  "generated_at_utc": "2026-10-18T13:10:07Z",
+  "server_timestamp": 1792329007569
 }
