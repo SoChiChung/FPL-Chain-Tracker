@@ -30,15 +30,15 @@
         "points": 1
       },
       {
-        "element": 4,
-        "name": "Gabriel",
-        "team": "ARS",
+        "element": 115,
+        "name": "De Cuyper",
+        "team": "BHA",
         "position_type": "DEF",
         "is_captain": false,
-        "is_vice_captain": true,
+        "is_vice_captain": false,
         "multiplier": 1,
         "is_substitute": false,
-        "points": 8
+        "points": 6
       },
       {
         "element": 201,
@@ -52,32 +52,21 @@
         "points": 2
       },
       {
-        "element": 115,
-        "name": "De Cuyper",
-        "team": "BHA",
+        "element": 4,
+        "name": "Gabriel",
+        "team": "ARS",
         "position_type": "DEF",
         "is_captain": false,
-        "is_vice_captain": false,
+        "is_vice_captain": true,
         "multiplier": 1,
         "is_substitute": false,
-        "points": 6
+        "points": 8
       },
       {
-        "element": 481,
-        "name": "Anderson",
+        "element": 391,
+        "name": "Gvardiol",
         "team": "MCI",
-        "position_type": "MID",
-        "is_captain": false,
-        "is_vice_captain": false,
-        "multiplier": 1,
-        "is_substitute": false,
-        "points": 1
-      },
-      {
-        "element": 367,
-        "name": "Gakpo",
-        "team": "LIV",
-        "position_type": "MID",
+        "position_type": "DEF",
         "is_captain": false,
         "is_vice_captain": false,
         "multiplier": 1,
@@ -107,6 +96,17 @@
         "points": 5
       },
       {
+        "element": 481,
+        "name": "Anderson",
+        "team": "MCI",
+        "position_type": "MID",
+        "is_captain": false,
+        "is_vice_captain": false,
+        "multiplier": 1,
+        "is_substitute": false,
+        "points": 1
+      },
+      {
         "element": 40,
         "name": "Rogers",
         "team": "CHE",
@@ -118,15 +118,15 @@
         "points": 2
       },
       {
-        "element": 55,
-        "name": "Watkins",
-        "team": "AVL",
+        "element": 106,
+        "name": "Thiago",
+        "team": "BRE",
         "position_type": "FWD",
         "is_captain": false,
         "is_vice_captain": false,
         "multiplier": 1,
         "is_substitute": false,
-        "points": 0
+        "points": 4
       },
       {
         "element": 165,
@@ -153,21 +153,21 @@
         "points": 0
       },
       {
-        "element": 106,
-        "name": "Thiago",
-        "team": "BRE",
-        "position_type": "FWD",
+        "element": 367,
+        "name": "Gakpo",
+        "team": "LIV",
+        "position_type": "MID",
         "is_captain": false,
         "is_vice_captain": false,
         "multiplier": 0,
         "is_substitute": true,
-        "points": 4
+        "points": 0
       },
       {
-        "element": 391,
-        "name": "Gvardiol",
-        "team": "MCI",
-        "position_type": "DEF",
+        "element": 55,
+        "name": "Watkins",
+        "team": "AVL",
+        "position_type": "FWD",
         "is_captain": false,
         "is_vice_captain": false,
         "multiplier": 0,
