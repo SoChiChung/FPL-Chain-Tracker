@@ -131,18 +131,18 @@
     {
       "id": 13,
       "name": "Gameweek 13",
-      "deadline_utc": "2026-12-02T18:30:00Z",
-      "deadline_beijing": "2026-12-03T02:30:00+08:00",
-      "deadline_timestamp": 1796236200000,
+      "deadline_utc": "2026-12-01T18:30:00Z",
+      "deadline_beijing": "2026-12-02T02:30:00+08:00",
+      "deadline_timestamp": 1796149800000,
       "finished": false,
       "status": "upcoming"
     },
     {
       "id": 14,
       "name": "Gameweek 14",
-      "deadline_utc": "2026-12-05T13:30:00Z",
-      "deadline_beijing": "2026-12-05T21:30:00+08:00",
-      "deadline_timestamp": 1796477400000,
+      "deadline_utc": "2026-12-05T11:00:00Z",
+      "deadline_beijing": "2026-12-05T19:00:00+08:00",
+      "deadline_timestamp": 1796468400000,
       "finished": false,
       "status": "upcoming"
     },
@@ -158,9 +158,9 @@
     {
       "id": 16,
       "name": "Gameweek 16",
-      "deadline_utc": "2026-12-19T13:30:00Z",
-      "deadline_beijing": "2026-12-19T21:30:00+08:00",
-      "deadline_timestamp": 1797687000000,
+      "deadline_utc": "2026-12-19T11:00:00Z",
+      "deadline_beijing": "2026-12-19T19:00:00+08:00",
+      "deadline_timestamp": 1797678000000,
       "finished": false,
       "status": "upcoming"
     },
@@ -460,7 +460,7 @@
     "transfer_pool": 4
   },
   "seal_after_hours": 48.0,
-  "data_version": 27,
-  "generated_at_utc": "2026-10-18T23:58:10Z",
-  "server_timestamp": 1792367890226
+  "data_version": 28,
+  "generated_at_utc": "2026-10-20T00:56:31Z",
+  "server_timestamp": 1792457791882
 }
