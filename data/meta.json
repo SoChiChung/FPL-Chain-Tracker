@@ -89,8 +89,8 @@
       "deadline_utc": "2026-10-23T17:30:00Z",
       "deadline_beijing": "2026-10-24T01:30:00+08:00",
       "deadline_timestamp": 1792776600000,
-      "finished": false,
-      "status": "live"
+      "finished": true,
+      "status": "sealed"
     },
     {
       "id": 9,
@@ -460,7 +460,7 @@
     "transfer_pool": 4
   },
   "seal_after_hours": 48.0,
-  "data_version": 41,
-  "generated_at_utc": "2026-10-26T14:56:15Z",
-  "server_timestamp": 1793026575704
+  "data_version": 42,
+  "generated_at_utc": "2026-10-26T20:21:46Z",
+  "server_timestamp": 1793046106559
 }

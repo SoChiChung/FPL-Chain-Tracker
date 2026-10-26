@@ -1,7 +1,7 @@
 {
   "season": "2026-27",
-  "data_version": 41,
-  "updated_at_utc": "2026-10-26T14:56:15Z",
+  "data_version": 42,
+  "updated_at_utc": "2026-10-26T20:21:46Z",
   "season_settled": false,
   "managers": [
     {
@@ -62,7 +62,7 @@
       "end_gw": 10,
       "gw_count": 4,
       "completed": false,
-      "live": true,
+      "live": false,
       "avg_rank": 3177318.0,
       "best_rank": 2875877,
       "avg_score": 49.0,
