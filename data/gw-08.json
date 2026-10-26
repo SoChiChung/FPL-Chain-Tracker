@@ -7,10 +7,10 @@
     "status": "live",
     "manager": "remember",
     "manager_avatar": "assets/avatar/remember.jpg",
-    "score": 35,
-    "total_points": 469,
-    "overall_rank": 3136201,
-    "gw_rank": 2789822,
+    "score": 56,
+    "total_points": 490,
+    "overall_rank": 2875877,
+    "gw_rank": 2152492,
     "chips": [],
     "transfers_count": 5,
     "transfers_cost": 0,
@@ -30,15 +30,15 @@
         "points": 1
       },
       {
-        "element": 4,
-        "name": "Gabriel",
+        "element": 31,
+        "name": "Konsa",
         "team": "ARS",
         "position_type": "DEF",
         "is_captain": false,
         "is_vice_captain": false,
         "multiplier": 1,
         "is_substitute": false,
-        "points": 17
+        "points": 14
       },
       {
         "element": 334,
@@ -52,26 +52,15 @@
         "points": 9
       },
       {
-        "element": 31,
-        "name": "Konsa",
+        "element": 4,
+        "name": "Gabriel",
         "team": "ARS",
         "position_type": "DEF",
         "is_captain": false,
         "is_vice_captain": false,
         "multiplier": 1,
         "is_substitute": false,
-        "points": 14
-      },
-      {
-        "element": 124,
-        "name": "Groß",
-        "team": "BHA",
-        "position_type": "MID",
-        "is_captain": false,
-        "is_vice_captain": false,
-        "multiplier": 1,
-        "is_substitute": false,
-        "points": 0
+        "points": 17
       },
       {
         "element": 13,
@@ -96,6 +85,17 @@
         "points": -1
       },
       {
+        "element": 124,
+        "name": "Groß",
+        "team": "BHA",
+        "position_type": "MID",
+        "is_captain": false,
+        "is_vice_captain": false,
+        "multiplier": 1,
+        "is_substitute": false,
+        "points": 0
+      },
+      {
         "element": 40,
         "name": "Rogers",
         "team": "CHE",
@@ -107,6 +107,28 @@
         "points": 1
       },
       {
+        "element": 367,
+        "name": "Gakpo",
+        "team": "LIV",
+        "position_type": "MID",
+        "is_captain": false,
+        "is_vice_captain": false,
+        "multiplier": 1,
+        "is_substitute": false,
+        "points": 3
+      },
+      {
+        "element": 346,
+        "name": "Calvert-Lewin",
+        "team": "LEE",
+        "position_type": "FWD",
+        "is_captain": false,
+        "is_vice_captain": true,
+        "multiplier": 2,
+        "is_substitute": false,
+        "points": 2
+      },
+      {
         "element": 106,
         "name": "Thiago",
         "team": "BRE",
@@ -116,28 +138,6 @@
         "multiplier": 1,
         "is_substitute": false,
         "points": 5
-      },
-      {
-        "element": 346,
-        "name": "Calvert-Lewin",
-        "team": "LEE",
-        "position_type": "FWD",
-        "is_captain": false,
-        "is_vice_captain": true,
-        "multiplier": 1,
-        "is_substitute": false,
-        "points": 2
-      },
-      {
-        "element": 165,
-        "name": "João Pedro",
-        "team": "CHE",
-        "position_type": "FWD",
-        "is_captain": true,
-        "is_vice_captain": false,
-        "multiplier": 2,
-        "is_substitute": false,
-        "points": 0
       }
     ],
     "subs": [
@@ -153,15 +153,15 @@
         "points": 0
       },
       {
-        "element": 367,
-        "name": "Gakpo",
-        "team": "LIV",
-        "position_type": "MID",
-        "is_captain": false,
+        "element": 165,
+        "name": "João Pedro",
+        "team": "CHE",
+        "position_type": "FWD",
+        "is_captain": true,
         "is_vice_captain": false,
         "multiplier": 0,
         "is_substitute": true,
-        "points": 3
+        "points": 0
       },
       {
         "element": 115,
