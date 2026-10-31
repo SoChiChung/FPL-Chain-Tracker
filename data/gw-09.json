@@ -1,0 +1,201 @@
+{
+  "season": "2026-27",
+  "gw": 9,
+  "status": "live",
+  "summary": {
+    "gw": 9,
+    "status": "live",
+    "manager": "remember",
+    "manager_avatar": "assets/avatar/remember.jpg",
+    "score": 0,
+    "total_points": 490,
+    "overall_rank": 2875877,
+    "gw_rank": null,
+    "chips": [],
+    "transfers_count": 1,
+    "transfers_cost": 0,
+    "has_detail": true
+  },
+  "lineup": {
+    "starters": [
+      {
+        "element": 384,
+        "name": "Donnarumma",
+        "team": "MCI",
+        "position_type": "GKP",
+        "is_captain": false,
+        "is_vice_captain": false,
+        "multiplier": 1,
+        "is_substitute": false,
+        "points": 1
+      },
+      {
+        "element": 4,
+        "name": "Gabriel",
+        "team": "ARS",
+        "position_type": "DEF",
+        "is_captain": false,
+        "is_vice_captain": false,
+        "multiplier": 1,
+        "is_substitute": false,
+        "points": 0
+      },
+      {
+        "element": 334,
+        "name": "Muharemović",
+        "team": "LEE",
+        "position_type": "DEF",
+        "is_captain": false,
+        "is_vice_captain": false,
+        "multiplier": 1,
+        "is_substitute": false,
+        "points": 1
+      },
+      {
+        "element": 31,
+        "name": "Konsa",
+        "team": "ARS",
+        "position_type": "DEF",
+        "is_captain": false,
+        "is_vice_captain": false,
+        "multiplier": 1,
+        "is_substitute": false,
+        "points": 0
+      },
+      {
+        "element": 391,
+        "name": "Gvardiol",
+        "team": "MCI",
+        "position_type": "DEF",
+        "is_captain": false,
+        "is_vice_captain": false,
+        "multiplier": 1,
+        "is_substitute": false,
+        "points": 1
+      },
+      {
+        "element": 13,
+        "name": "Rice",
+        "team": "ARS",
+        "position_type": "MID",
+        "is_captain": false,
+        "is_vice_captain": false,
+        "multiplier": 1,
+        "is_substitute": false,
+        "points": 0
+      },
+      {
+        "element": 154,
+        "name": "Palmer",
+        "team": "CHE",
+        "position_type": "MID",
+        "is_captain": false,
+        "is_vice_captain": true,
+        "multiplier": 1,
+        "is_substitute": false,
+        "points": 8
+      },
+      {
+        "element": 40,
+        "name": "Rogers",
+        "team": "CHE",
+        "position_type": "MID",
+        "is_captain": false,
+        "is_vice_captain": false,
+        "multiplier": 1,
+        "is_substitute": false,
+        "points": 8
+      },
+      {
+        "element": 53,
+        "name": "Manzambi",
+        "team": "AVL",
+        "position_type": "MID",
+        "is_captain": true,
+        "is_vice_captain": false,
+        "multiplier": 2,
+        "is_substitute": false,
+        "points": 0
+      },
+      {
+        "element": 106,
+        "name": "Thiago",
+        "team": "BRE",
+        "position_type": "FWD",
+        "is_captain": false,
+        "is_vice_captain": false,
+        "multiplier": 1,
+        "is_substitute": false,
+        "points": 1
+      },
+      {
+        "element": 346,
+        "name": "Calvert-Lewin",
+        "team": "LEE",
+        "position_type": "FWD",
+        "is_captain": false,
+        "is_vice_captain": false,
+        "multiplier": 1,
+        "is_substitute": false,
+        "points": 1
+      }
+    ],
+    "subs": [
+      {
+        "element": 58,
+        "name": "Forster",
+        "team": "BOU",
+        "position_type": "GKP",
+        "is_captain": false,
+        "is_vice_captain": false,
+        "multiplier": 0,
+        "is_substitute": true,
+        "points": 0
+      },
+      {
+        "element": 124,
+        "name": "Groß",
+        "team": "BHA",
+        "position_type": "MID",
+        "is_captain": false,
+        "is_vice_captain": false,
+        "multiplier": 0,
+        "is_substitute": true,
+        "points": 1
+      },
+      {
+        "element": 115,
+        "name": "De Cuyper",
+        "team": "BHA",
+        "position_type": "DEF",
+        "is_captain": false,
+        "is_vice_captain": false,
+        "multiplier": 0,
+        "is_substitute": true,
+        "points": 6
+      },
+      {
+        "element": 165,
+        "name": "João Pedro",
+        "team": "CHE",
+        "position_type": "FWD",
+        "is_captain": false,
+        "is_vice_captain": false,
+        "multiplier": 0,
+        "is_substitute": true,
+        "points": 0
+      }
+    ]
+  },
+  "transfers": [
+    {
+      "element_in": 53,
+      "element_in_name": "Manzambi",
+      "element_out": 367,
+      "element_out_name": "Gakpo",
+      "gw": 9,
+      "time_utc": "2026-10-29T02:45:01.987306Z"
+    }
+  ],
+  "chips": []
+}
