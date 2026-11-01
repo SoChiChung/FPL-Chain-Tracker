@@ -1,7 +1,7 @@
 {
   "season": "2026-27",
-  "data_version": 45,
-  "updated_at_utc": "2026-10-31T23:09:41Z",
+  "data_version": 46,
+  "updated_at_utc": "2026-11-01T02:27:54Z",
   "gw_list": [
     {
       "gw": 1,
@@ -120,10 +120,10 @@
       "status": "live",
       "manager": "remember",
       "manager_avatar": "assets/avatar/remember.jpg",
-      "score": 0,
-      "total_points": 490,
-      "overall_rank": 2875877,
-      "gw_rank": null,
+      "score": 49,
+      "total_points": 539,
+      "overall_rank": 2194791,
+      "gw_rank": 1272333,
       "chips": [],
       "transfers_count": 1,
       "transfers_cost": 0,
