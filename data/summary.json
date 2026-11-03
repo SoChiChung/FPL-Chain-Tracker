@@ -1,7 +1,7 @@
 {
   "season": "2026-27",
-  "data_version": 50,
-  "updated_at_utc": "2026-11-03T14:53:26Z",
+  "data_version": 51,
+  "updated_at_utc": "2026-11-03T20:49:06Z",
   "gw_list": [
     {
       "gw": 1,
@@ -117,7 +117,7 @@
     },
     {
       "gw": 9,
-      "status": "live",
+      "status": "sealed",
       "manager": "remember",
       "manager_avatar": "assets/avatar/remember.jpg",
       "score": 73,
