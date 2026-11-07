@@ -7,10 +7,10 @@
     "status": "live",
     "manager": "remember",
     "manager_avatar": "assets/avatar/remember.jpg",
-    "score": 0,
-    "total_points": 563,
-    "overall_rank": 1873549,
-    "gw_rank": 8867653,
+    "score": 22,
+    "total_points": 585,
+    "overall_rank": 1997677,
+    "gw_rank": 6827194,
     "chips": [],
     "transfers_count": 1,
     "transfers_cost": 0,
@@ -27,7 +27,7 @@
         "is_vice_captain": false,
         "multiplier": 1,
         "is_substitute": false,
-        "points": 0
+        "points": 1
       },
       {
         "element": 4,
