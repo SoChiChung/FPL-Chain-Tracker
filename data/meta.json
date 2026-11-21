@@ -7,17 +7,17 @@
     "player_first_name": "WUDI",
     "player_last_name": "WUDI",
     "started_event": 1,
-    "current_event": 10
+    "current_event": 11
   },
   "current_gw": {
-    "id": 10,
+    "id": 11,
     "status": "live"
   },
   "next_deadline": {
-    "gw": 11,
-    "deadline_utc": "2026-11-21T11:00:00Z",
-    "deadline_beijing": "2026-11-21T19:00:00+08:00",
-    "deadline_timestamp": 1795258800000
+    "gw": 12,
+    "deadline_utc": "2026-11-27T18:30:00Z",
+    "deadline_beijing": "2026-11-28T02:30:00+08:00",
+    "deadline_timestamp": 1795804200000
   },
   "events": [
     {
@@ -117,7 +117,7 @@
       "deadline_beijing": "2026-11-21T19:00:00+08:00",
       "deadline_timestamp": 1795258800000,
       "finished": false,
-      "status": "upcoming"
+      "status": "live"
     },
     {
       "id": 12,
@@ -203,9 +203,9 @@
     {
       "id": 21,
       "name": "Gameweek 21",
-      "deadline_utc": "2027-01-16T13:30:00Z",
-      "deadline_beijing": "2027-01-16T21:30:00+08:00",
-      "deadline_timestamp": 1800106200000,
+      "deadline_utc": "2027-01-16T11:00:00Z",
+      "deadline_beijing": "2027-01-16T19:00:00+08:00",
+      "deadline_timestamp": 1800097200000,
       "finished": false,
       "status": "upcoming"
     },
@@ -221,9 +221,9 @@
     {
       "id": 23,
       "name": "Gameweek 23",
-      "deadline_utc": "2027-01-30T13:30:00Z",
-      "deadline_beijing": "2027-01-30T21:30:00+08:00",
-      "deadline_timestamp": 1801315800000,
+      "deadline_utc": "2027-01-30T11:00:00Z",
+      "deadline_beijing": "2027-01-30T19:00:00+08:00",
+      "deadline_timestamp": 1801306800000,
       "finished": false,
       "status": "upcoming"
     },
@@ -376,14 +376,14 @@
       "start_gw": 7,
       "end_gw": 10,
       "avatar": "assets/avatar/remember.jpg",
-      "active": true
+      "active": false
     },
     {
       "name": "欧巡",
       "start_gw": 11,
       "end_gw": 14,
       "avatar": "assets/avatar/ocean.jpg",
-      "active": false
+      "active": true
     },
     {
       "name": "中国合伙人",
@@ -460,7 +460,7 @@
     "transfer_pool": 4
   },
   "seal_after_hours": 48.0,
-  "data_version": 60,
-  "generated_at_utc": "2026-11-09T23:30:22Z",
-  "server_timestamp": 1794267022458
+  "data_version": 61,
+  "generated_at_utc": "2026-11-21T12:55:06Z",
+  "server_timestamp": 1795265706394
 }

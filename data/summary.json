@@ -1,7 +1,7 @@
 {
   "season": "2026-27",
-  "data_version": 60,
-  "updated_at_utc": "2026-11-09T23:30:22Z",
+  "data_version": 61,
+  "updated_at_utc": "2026-11-21T12:55:06Z",
   "gw_list": [
     {
       "gw": 1,
@@ -145,17 +145,17 @@
     },
     {
       "gw": 11,
-      "status": "upcoming",
+      "status": "live",
       "manager": "欧巡",
       "manager_avatar": "assets/avatar/ocean.jpg",
-      "score": null,
-      "total_points": null,
-      "overall_rank": null,
+      "score": 0,
+      "total_points": 623,
+      "overall_rank": 1784579,
       "gw_rank": null,
-      "chips": null,
-      "transfers_count": 0,
+      "chips": [],
+      "transfers_count": 1,
       "transfers_cost": 0,
-      "has_detail": false
+      "has_detail": true
     },
     {
       "gw": 12,
