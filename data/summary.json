@@ -1,7 +1,7 @@
 {
   "season": "2026-27",
-  "data_version": 67,
-  "updated_at_utc": "2026-11-23T02:21:44Z",
+  "data_version": 68,
+  "updated_at_utc": "2026-11-24T06:49:31Z",
   "gw_list": [
     {
       "gw": 1,
@@ -150,8 +150,8 @@
       "manager_avatar": "assets/avatar/ocean.jpg",
       "score": 37,
       "total_points": 660,
-      "overall_rank": 1714577,
-      "gw_rank": 3469249,
+      "overall_rank": 1736423,
+      "gw_rank": 3760796,
       "chips": [],
       "transfers_count": 1,
       "transfers_cost": 0,
