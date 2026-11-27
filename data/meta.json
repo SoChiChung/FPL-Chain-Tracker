@@ -7,17 +7,17 @@
     "player_first_name": "WUDI",
     "player_last_name": "WUDI",
     "started_event": 1,
-    "current_event": 11
+    "current_event": 12
   },
   "current_gw": {
-    "id": 11,
+    "id": 12,
     "status": "live"
   },
   "next_deadline": {
-    "gw": 12,
-    "deadline_utc": "2026-11-27T18:30:00Z",
-    "deadline_beijing": "2026-11-28T02:30:00+08:00",
-    "deadline_timestamp": 1795804200000
+    "gw": 13,
+    "deadline_utc": "2026-12-01T18:30:00Z",
+    "deadline_beijing": "2026-12-02T02:30:00+08:00",
+    "deadline_timestamp": 1796149800000
   },
   "events": [
     {
@@ -126,7 +126,7 @@
       "deadline_beijing": "2026-11-28T02:30:00+08:00",
       "deadline_timestamp": 1795804200000,
       "finished": false,
-      "status": "upcoming"
+      "status": "live"
     },
     {
       "id": 13,
@@ -460,7 +460,7 @@
     "transfer_pool": 4
   },
   "seal_after_hours": 48.0,
-  "data_version": 69,
-  "generated_at_utc": "2026-11-24T18:42:15Z",
-  "server_timestamp": 1795545735352
+  "data_version": 70,
+  "generated_at_utc": "2026-11-27T23:40:12Z",
+  "server_timestamp": 1795822812163
 }
